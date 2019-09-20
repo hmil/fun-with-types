@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+    }</style>
+</head>
+<body>
+
+<div id="container" style="width:100%;height:100%;"></div>
+
+<script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+<script>
+    require.config({ paths: { 'vs': './node_modules/monaco-editor/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        const hash = window.location.hash;
+        let id = null;
+        const args = parseArgs(hash.slice(1));
+        let opt = monaco.languages.typescript.typescriptDefaults.getCompilerOptions();
+        opt.strict = true;
+        opt.experimentalDecorators = true;
+        const params = {
+            language: 'typescript',
+            fontSize: 18,
+            lineNumbers: 'off',
+            minimap: {
+                enabled: false
+            },
+            theme: 'vs-dark',
+        };
+        if ('code' in args) {
+            params.value = atob(args['code']);
+        }
+        if ('size' in args) {
+            params.fontSize = Number(args['size']);
+        }
+        if ('lang' in args) {
+            params.language = args['lang'];
+        }
+        if ('hidden' in args) {
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(atob(args['hidden']));
+        }
+        if ('conf' in args) {
+            const additionalOptions = parseArgs(atob(args['conf']));
+            opt = {
+                ...opt,
+                ...additionalOptions
+            };
+        }
+        monaco.languages.typescript.typescriptDefaults.setCompilerOptions(opt);
+        var editor = monaco.editor.create(document.getElementById('container'), params);
+    });
+
+    function getRootWindow() {
+        const top = window.top;
+        if (top.opener != null) {
+            return top.opener;
+        }
+        return top;
+    }
+
+    function parseArgs(args) {
+        return args.split('&').map(arg => {
+            const pos = arg.indexOf('=');
+            return [arg.substring(0, pos), arg.substring(pos + 1)];
+        })
+        .map(([key, val]) => [key, convertVal(val)])
+        .reduce((acc, cur) => ({ [cur[0]]: cur[1], ...acc}), {});
+    }
+
+    function convertVal(val) {
+        if (val === 'false') {
+            return false;
+        } else if (val === 'true') {
+            return true;
+        }
+        return val;
+    }
+</script>
+</body>
+</html>

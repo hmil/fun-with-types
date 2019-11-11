@@ -65,52 +65,116 @@
                 <section>
                     <p>This is an interactive presentation. Press "s" to open the speaker view.</p>
                     <aside class="notes">
-                        This view contains additional information for each slide.<br>
-                        When a code editor is shown on a slide, snippets of code will be provided here and you can copy-paste them in the editor.
+                        Because this presentation contains live coding, it doesn't make any sense unless you have the speaker notes handy ;)<br>
+                        <br>
+                        Snippets of code will be provided here and you can copy-paste them in the editor when needed.
+                    </aside>
+                </section>
+
+                <section>
+                    <aside class="notes">
+                        Start here
                     </aside>
                 </section>
 
                 <section>
                     <div style="display: flex; flex-direction: column;">
-                        <img src="./thumbnail.png" alt="" style="display: block; width: 60%; margin: auto;">
+                        <img src="./imgs/thumbnail.png" alt="" style="display: block; width: 60%; margin: auto;">
                         <h2 style="display: block; margin-top: 40px;">10 Things You Did Not Know TypeScript Could Do</h2>
                     </div>
+                    <aside class="notes">
+                        Thank you for coming here tonight to this talk entitled "10 Things you did not know TS could do".
+                        And thank you to those who bit on the clickbait by the way.
+
+                        Because this is a hold up! We are not going to talk about TypeScript. 
+                        I tricked you into coming here so I could spend the next hour talking about...
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Purpose of this talk:</h2>
+                    <img src="./imgs/vison.jpg" alt="" style="display: block; width: 60%; margin: auto;">
+
+                    <aside class="notes">
+                            ...the European mink (Mustela lutreola), a semiaquatic species of 
+                            mustelid critically threatened of extinction and virtually gone from all European biomes.
+
+                            Well, now TypeScript sounds like an interesting topic, doesn't it?
+
+                            (note: with this technique, you can make almost anything sound exciting)
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>(actual) Purpose of this talk</h2>
+                    <img src="./imgs/purpose.png" alt="" style="display: block; width: 60%; margin: auto;">
+
+                    <aside class="notes">
+                        What are we actually here to discuss tonight?
+
+                        We'll talk about TypeScript. 
+                        But not the kind that's useful in your everyday job. 
+                        Not the one you read about on hackernews.
+                        
+                        No, the kind of TypeScript you briefly overhear in the break room before an awkward silence settles as you walk in.
+
+                        The kind _they_ don't want you to know about...
+                    </aside>
+                </section>
+
+                <section>
+                    <iframe width="1200" height="768" data-src="https://www.youtube.com/embed/NzlG28B-R8Y?start=6&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
                 </section>
 
                 <!-- Section: fundamentals -->
                 <section>
-                    <h2>Fundamentals</h2>
+                    <h2>Foundations</h2>
+                    <p>
+                        <span style="color: #5b94ec">Types</span> + <span style="color: #e8d11d">JavaScript</span> = 
+                        <span style="color: #5b94ec">Type</span><span style="color: #e8d11d">Script</span>
+                    </p>
+                    <aside class="notes">
+                        Before we get into the weird stuff, we need to start with the basics. Let's see how familiar this room is with TypeScript...
+
+                        [Poll the room]
+
+                        Let's quickly review the basics.
+                    </aside>
                 </section>
                 <section>
                     <p>JS with types</p>
                     <editor data-trim>
-                        let whatever: number = 1;
-                        whatever = 'one';
+                        let someNumber = 1;
+                        someNumber = '2';
                     </editor>
-                    <aside class="notes">Add types to variables to increase correctness.</aside>
-                </section>
-                <section>
-                    <p>Type inference</p>
-                    <editor data-trim>
-                        function fn(s: string) {
-                            return parseInt(s, 12);
-                        }
+                    <aside class="notes">
+                        TS adds types to variables to maximize correctness of the code.<br>
                         
-                        const b = fn('12');
-                    </editor>
-                    <aside class="notes">Types can be infered automatically.</aside>
+                        This is valid JavaScript, but it's not valid TypeScript. TS, by default considers that variables don't change type.<br>
+
+                        Notice that the error could be either in the first or the second line.<br>
+
+                        Maybe I want this variable to be a number. Or I want it to be a string, or both!<br>
+
+                        If I want both, I should write <pre>let someNumber: string | number = 1;</pre><br>
+
+                        Whe I don't write any type annotation, TS infers the type from the right hand side.
+                    </aside>
                 </section>
                 <section>
-                    <h3>Type aliases</h3>
+                    <p>Type aliases</p>
                     <editor data-trim>
                         type MyString = string;
 
-                        const my: MyString = 'abc';
+                        const someString: MyString = 'abc';
                     </editor>
-                    <aside class="notes"></aside>
+                    <aside class="notes">
+                        I can define a custom type as an alias for another type.
+                    </aside>
                 </section>
                 <section>
-                    <h3>Object types</h3>
+                    <p>Object types</p>
                     <editor data-trim>
                         type User = {
                             age: number;
@@ -118,31 +182,49 @@
                             isHuman: boolean;
                         };
                     </editor>
-                    <aside class="notes"><ul>
-                        <li>define user variable</li>
-                        <li>make a member optional</li>
-                        <li>Same as interface</li>
-                    </ul></aside>
+                    <aside class="notes">
+                        Define a variable:
+<pre>const user: User = {
+    age: 5,
+    isHuman: false,
+    name: 'wall-e'
+}</pre>
+                        TS helps with auto-completion.<br>
+                        What if I don't want to discriminate based on biological domain?<br> Make isHuman optional.
+<pre>isHuman?: boolean;</pre>
+                        TS has a built-in concept for these object types: an interface.<br>
+<pre>interface User { ... }</pre>
+                    </aside>
                 </section>
                 
                 <!-- Section: Intersection, Union, Conditional -->
                 <section>
                     <h2>Operators</h2>
+                    <aside class="notes">
+                        With what we've seen so far, you already know 60% of what you'll ever need in TS.<br>
+                        Let's see the next most useful feature in TS: operators.
+                    </aside>
                 </section>
                 <section>
                     <p>Intersection (mixins)</p>
                     <editor data-trim>
                         <hidden>
-                            type User = { handle: string; };
-                            type Admin = { admin: true };
-                            type Moderator = { modo: true };
+                            
+                            declare function getUser(): any;
                         </hidden>
+                        type User = { username: string; }
+                        type Admin = { admin: true }
+                        type Moderator = { moderator: true }
 
-                        function adminOnly(who: Admin) { /* ... */ }
-                        
-                        let john: User & Admin & Moderator;
-                        adminOnly(john);
+                        let john: User & Admin & Moderator = getUser()
                     </editor>
+                    <aside class="notes">
+                        John is a user AND an admin AND a Moderator.<br>
+                        If we inspect the type of john, we can see it has the properties of all types.<br>
+                        <br>
+                        I can write a function which accepts only admins:
+<pre>function adminOnly(who: Admin) { /* ... */ }</pre>
+                    </aside>
                 </section>
                 <section>
                     <p>Trick #1<br>Safe html strings.</p>
@@ -151,19 +233,18 @@
                             declare function escapeHtmlString(s: string): string;
                             declare function getUserInput(): string;
                         </hidden>
-                        type SafeString = string & { _isEscaped: true };
+                        type SafeString = string & { __isEscaped: true };
                         
                         function sanitize(raw: string): SafeString {
                             return escapeHtmlString(raw) as SafeString;
                         }
                         function render(template: string, ...args: SafeString[]) { /* ... */ }
-                        
                     </editor>
-                    <aside class="notes"><pre>
-                        const userName = getUserInput();
-                        render("Hello %name%", userName);
-
-                        then: const userName = sanitize(getUserInput());
+                    <aside class="notes">
+                        And this leads us to our first trick!
+                        <pre>
+const userName = sanitize(getUserInput());
+render("Hello %name%", userName);
                     </pre></aside>
                 </section>
                 <section>
@@ -172,7 +253,7 @@
                         <hidden>
                             declare function escapeHtmlString(s: string): string;
                             declare function getUserInput(): string;
-                            type SafeString = string & { _isEscaped: true };
+                            type SafeString = string & { __isEscaped: true };
                             function sanitize(raw: string): SafeString {
                                 return escapeHtmlString(raw) as SafeString;
                             }
@@ -183,12 +264,12 @@
                             return builder;
                         }
                         const userName = getUserInput();
-                        html`Hello ${userName}`;
-                        
+
+                        html`Hello ${userName}!`; // "Hello John!"
                     </editor>
                     <aside class="notes"><pre>
-                        Add SafeString to method signature.
-                        sanitize input.
+                        This is a JS tagged template. In TS they are type-checked! <br>
+                        Replace argument string[] with SafeString[] .
                     </pre></aside>
                 </section>
                 <section>
@@ -204,6 +285,11 @@
                         let john: Admin;
                         anyone(john);
                     </editor>
+                    <aside class="notes">
+                        This functions accepts either an admin or a user.<br>
+                        <br>
+                        [Change the type of john to be User, this still works]
+                    </aside>
                 </section>
                 <section>
                     <div class="h-layout">
@@ -214,12 +300,12 @@
                             <hidden>
                             </hidden>
                             interface HumanUser {
-                                type: 'human';
+                                kind: 'human';
                                 firstname: string;
                                 lastname: string;
                             }
                             interface BotUser {
-                                type: 'bot';
+                                kind: 'bot';
                                 handle: string;
                             }
                             type AnyUser = HumanUser | BotUser;
@@ -229,14 +315,19 @@
                             }
                         </editor>
                     </div>
-                    <aside class="notes"><pre>
-                        switch (user.type) {
-                            case 'human':
-                                return `Hello ${user.firstname} ${user.lastname}!`;
-                            case 'bot':
-                                return `0101000110 ${user.handle}`;
-                        }
-                    </pre></aside>
+                    <aside class="notes">
+                        This union is discriminated by the member "kind".<br>
+                        <br>
+                        In the function, the only accessible member is "kind".<br>
+                        <br>
+                        If I discriminate based on its value, I gain access to the other members!<br>
+                        <pre>
+if (user.kind === 'human') {
+    return `Hello ${user.firstname} ${user.lastname}!`;
+} else {
+    return `0101000110 ${user.handle}`;
+}</pre>
+                    </aside>
                 </section>
                 <section>
                     <div class="h-layout">
@@ -272,52 +363,16 @@
                             }
                         </editor>
                     </div>
-                    <aside class="notes"><pre>
-                        
-                    </pre></aside>
-                </section>
-                <section>
-                    <div class="h-layout">
-                        <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #3<br>Type guards</p>
-                        </div>
-                        <editor data-trim>
-                            <hidden>
-                                interface HumanUser {
-                                    type: 'human';
-                                    firstname: string;
-                                    lastname: string;
-                                }
-                                interface BotUser {
-                                    type: 'bot';
-                                    handle: string;
-                                }
-                                interface AlienUser {
-                                    type: 'alien',
-                                    codename: string
-                                }
-                                type AnyUser = HumanUser | BotUser | AlienUser;
-                            </hidden>
-                            function isHuman(t: AnyUser): t is HumanUser {
-                                return t.type === 'human';
-                            }
+                    <aside class="notes">
+                        Can you spot the mistake in this code snippet?
 
-                            function greet(user: AnyUser): string {
-                                
-                            }
-                        </editor>
-                    </div>
-                    <aside class="notes"><pre>
-                        if (isHuman(user)) {
-                            return user.firstname;
-                        }
-                        return `This is not a human: ${user.type}`;
-                    </pre></aside>
+                        ...missing a case for 'alien' type.
+                    </aside>
                 </section>
-                <section>
+                <!-- <section>
                     What type is left when there is nothing left?
                     <pre><code data-trim>
-                        type SomeUnion = A | B | C; // | never;
+                        type SomeUnion = A | B | C; // | never;
                     </code></pre>
                 </section>
                 <section>
@@ -353,11 +408,11 @@
                                 }
                             }
                     </pre></aside>
-                </section>
+                </section> -->
                 <section>
                     <div class="h-layout">
                         <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #4<br>Exhaustive switch</p>
+                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching (without return type)</p>
                             <p class="fragment">Bonus trick<br>Type-level error messages</p>
                         </div>
                         <editor data-trim>
@@ -393,17 +448,32 @@
                             }
                         </editor>
                     </div>
-                    <aside class="notes"><pre>
-                        function isSwitchExhaustive(a: never | "ERROR: You are missing a case in this switch") {
-                            throw new Error('Unexpected case');
-                        }
-                    </pre></aside>
+                    <aside class="notes">
+                        TypeScript has a type which means "should never happen". It is called <pre>never</pre>.<br>
+                        <br>
+                        Declare this function and use it in the <pre>default</pre> block.
+                        <pre>
+function isSwitchExhaustive(a: never) {
+    throw new Error('Unexpected case');
+}
+                    </pre>
+                    <br>
+                    For type-level error messages, change function parameter to:
+                    <pre>a: "ERROR: You are missing a case in this switch"</pre>
+                    <br>
+                    Why does this work?<br>
+                    Because unions can always be written as <pre>A | B | ... | never</pre>.<br>
+                    Never is what is left when you've removed everything from a union.
+                </aside>
                 </section>
                 <section>
                     <p>Conditional types</p>
                     <pre><code data-trim>
                         A extends B ? Yes : No;
                     </code></pre>
+                    <aside class="notes">
+                        The last tool we need in our toolbox before we can enter the twilight zone.
+                    </aside>
                 </section>
                 <section>
                     <p>Conditional types</p>
@@ -418,62 +488,63 @@
                 <section>
                     <p>Conditional type inference</p>
                     <editor data-trim>
-                        interface Data&lt;T> {
-                            data: T;
-                        }
-
-                        type ExtractData&lt;T> = T extends Data&lt;infer T> ? T : never;
-
-                        const d = { data: 23 };
-            
-                        type A = ExtractData&lt;typeof d>;
-                        type B = (typeof d)['data'];
+                        type MyTuple = ['one', 'two'];
+                        type T = MyTuple[1];
                     </editor>
-                    <p>TODO: Show distributivity and how to do object Pluck, Diffs, etc.</p>
-                    <img src="./imgs/ReturnType.png" />
+                    <img class="fragment" src="./imgs/ReturnType.png" />
                     <aside class="notes">
-                        We can infer a type in the conditional expression.<br>
-                        'A' is equivalent to <pre>type B = (typeof d)['data'];</pre><br>
-                        We can use this mechanism to infer the return type of a function.
-                        <pre>
-function myTest(d: number): string;
-type Retn&lt;T> = T extends (...args: any[]) => infer Ret ? Ret : never;
-type ReturnOfTest = Retn&lt;typeof myTest>;
-                        </pre>
+                        We extract the second type in this tuple using an index access in the type.<br>
+                        But we could also extract it like this:<br>
+                        <pre>type T = MyTuple extends [any, infer Second] ? Second : never;</pre>
+                        And generalize this helper with...<br>
+                        <pre>type ExtractSecond<T> = T extends [any, infer Second] ? Second : 'not a 2-tuple';</pre>
+                        <br>
+                        As a practical usage example, see this definition from the standard library extracts the return type of a function.
                     </aside>
                 </section>
-                <section>
-                    <p>Conditional type inference distributivity</p>
-                    <editor data-trim>
-                        type Strings = 'a' | 'b' | 'c';
-
-                        type Test&lt;T> = T extends 'b' ? 'YES' : 'NO';
-                    </editor>
-                    <p>TODO (maybe, or keep for an overview of more stuff at the end): Show distributivity and how to do object Pluck, Diffs, etc.</p>
-                    <aside class="notes">
-                        </pre>
-                    </aside>
-                </section>
-
 
                 <!-- Section: recursive types, working with tuples, Rest.ts -->
                 <section>
                     <p>HTTP API definition</p>
                     <editor data-trim style="min-height: 400px">
                         <hidden>
-                            declare function createClient&lt;T>(api: T): { [k in keyof T]: (params: any) => void};
+                            declare function createClient&lt;T>(api: T): { [k in keyof T]: (params?: any) => Promise&lt;any>};
                             declare function createServer&lt;T>(api: T, server: { [k in keyof T]: (req: { params: any }) => void});
                         </hidden>
+                        // Shared
                         const api = {
                             getAllCats: 'GET /api/cats',
                             getCatByName: 'GET /api/cats/:name'
                         };
 
+                        // Client
                         const client = createClient(api);
 
+                        // Server
                         const server = createServer(api, {});
                     </editor>
                     <p class="fragment"><small>Not super TypeScript friendly...</small></p>
+                    <aside class="notes">
+                        You have a web application with a front-end and a back-end component.<br>
+                        You want to share the API definition between the front and back to maximize the safety of this link.<br>
+                        This would be a typical way to do it. A shared API definition, then helpers to create client and server implementations of that API.<br>
+                        <br>
+                        But this naive approach is not safe. Take this code:<br>
+<pre>client.getCatByName({
+    name: 'Olinka'
+})</pre>
+                        The parameter "name" could as well be "id" and this would compile, but fail at runtime...<br>
+                        <br>
+                        For the server implementation<br>
+<pre>{
+    getAllCats() {},
+    getCatByName(req) {
+    }
+}</pre>
+                        req.params isn't type-checked either...<br>
+                        <br>
+                        Problem: There is no way to link the parameter names to their usage.
+                    </aside>
                 </section>
                 <section>
                     <p>What if...</p>
@@ -498,16 +569,16 @@ type ReturnOfTest = Retn&lt;typeof myTest>;
                             declare function createServer&lt;T extends Api>(def: T, serv: HttpServer&lt;T>): void;
                             declare function GET(str: TemplateStringsArray): Endpoint&lt;never>;
                             declare function GET&lt;A extends string>(str: TemplateStringsArray, a: A): Endpoint&lt;A>;
-                            declare function GET&lt;A extends string, B extends string>(str: TemplateStringsArray, a: A, b: B): Endpoint&lt;A | B>;
+                            declare function GET&lt;A extends string, B extends string>(str: TemplateStringsArray, a: A, b: B): Endpoint&lt;A | B>;
                         </hidden>
                         const api = {
-                            getAllCats: GET`/api/cats`,
-                            getCatByName: GET`/api/cats/${'name'}`
+                            getAllCats: GET `/api/cats`,
+                            getCatByName: GET `/api/cats/${'name'}`
                         };
 
                         const client = createClient(api);
 
-                        const server = createServer(api, { });
+                        const server = createServer(api, { });
                     </editor>
                     <aside class="notes">
                         Call endpoint with name.<br>
@@ -519,17 +590,25 @@ type ReturnOfTest = Retn&lt;typeof myTest>;
                     <p>Is this... magic?</p>
                     <editor data-trim style="min-height: 250px">
                         interface Endpoint&lt;Params extends string> {
-                            params: { [k in Params]: string; };
+                            params: { [k in Params]: string; }
                         }
-                        declare function GET&lt;A extends string>(str: TemplateStringsArray, a: A): Endpoint&lt;A>;
+                        declare function GET&lt;A extends string>(str: TemplateStringsArray, a: A): Endpoint&lt;A>
                     </editor>
                     <p>No, it's TypeScript! (trick #5)</p>
                     <aside class="notes">
-                        Show that GET is a template tag and captures type of parameter.<br>
-                        Show that it doesn't work with a second param.
+                        GET is a template tag. You can use it like this:<br>
+                        <pre>const endpoint = GET `/cats/${'name'}/`</pre><br>
+                        And now the string literal is captured in the type of <pre>endpoint</pre>!
+                        <br>
+                        But this doesn't work when you add a second parameter...<br>
+                        <pre>const endpoint = GET `/cats/${'owner'}/${'name'}/`</pre>
                     </aside>
                 </section>
                 <section>
+                    <img src="./imgs/runtypes.png" alt="" class="fragment" style="position: absolute; display: block; width: 400px; margin-left: 400px;">
+                    <img src="./imgs/rxjs.png" alt="" class="fragment" style="position: absolute; display: block; width: 1000px; margin-left: 100px; margin-top: 100px">
+                    <div style="position: relative">
+                    </div>
                     <p>Hmmm...</p>
                     <editor data-trim style="min-height: 300px">
                         <hidden>
@@ -542,37 +621,46 @@ type ReturnOfTest = Retn&lt;typeof myTest>;
                         declare function GET&lt;A extends string, B extends string, C extends string>(str: TemplateStringsArray, a: A, b: B, c: C): Endpoint&lt;A | B | C>;
                         declare function GET&lt;A extends string, B extends string, C extends string, D extends string>(str: TemplateStringsArray, a: A, b: B, c: C, d: D): Endpoint&lt;A | B | C | D>;
                     </editor>
-                    <img src="./imgs/runtypes.png" alt="" class="fragment">
                     <aside class="notes">
+                        An easy solution is to declare a version of the function for many different number of arguments.<br>
+                        But this is not DRY, and imposes a hard limit on how many arguments can be accepted, even though the underlying function can accept any number of arguments!<br>
+                        <br>
+                        But this seems to be the industry standard at the moment...
                     </aside>
                 </section>
                 <section>
                     <p>Problem:</p>
                     <pre><code data-trim>
-                        function GET(arg0, ...args: [A, B, C, ...]) => Endpoint&lt;A | B | C | ...>;
+                        let Flatten = [A, B, C, ...] -> A | B | C | ...
                     </code></pre>
-                    <p>more formally</p>
-                    <pre><code data-trim>
-                        let Flatten = [A, B, C, ...] -> A | B | C | ...
-                    </code></pre>
+                    <aside class="notes">
+                        How to flatten a tuple?
+                    </aside>
                 </section>
                 <section>
                     <p>First attempt</p>
                     <editor data-trim style="height: 100px;">
-                        type Flatten&lt;Tuple extends any[]> = 
+                        type Flatten&lt;T extends any[]> = 
                     </editor>
-                    <p>
-                        sub-problems:
+                    <div class="fragment">
+                        <p>sub-problems:</p>
                         <ul>
                             <li>"Rest" of a tuple</li>
                             <li>Recursive types</li>
                         </ul>
-                    </p>
+                    </div>
+                    <aside class="notes">
+                        Naively, one would start with a conditional like this:
+                        <pre>type Flatten&lt;T extends any[]> = T extends [infer Frist, ...any[]] ? First | Flatten&lt;T[Rest]> : T;</pre>
+                        <br>
+                        How do I get the rest of a tuple?<br>
+                        How do I make a recursive type?
+                    </aside>
                 </section>
                 <section>
                     <p>Rest of a tuple</p>
                     <editor data-trim style="min-height: 400px;">
-                        type Head&lt;T extends any[]> = T[0];
+                        type Head&lt;T extends any[]> = T[0]
 
                         type test = Head&lt;['a', 'b', 'c']>
                     </editor>
@@ -587,45 +675,70 @@ type ReturnOfTest = Retn&lt;typeof myTest>;
                         type List&lt;Data extends any[]> = (...tail: Data) => void;
                         type Push&lt;El, list extends List&lt;any>> = list extends List&lt;infer Data> ? (head: El, ...tail: Data) => void : never;
                         type Pop&lt;Head, Tail extends any[]> = (h: Head, ...tail: Tail) => void;
-
-                        type MyList = List&lt;['a', 'b', 'c']>;
-                        type MyAugmentedList = Push&lt;'z', MyList>;
-                        type Head = MyAugmentedList extends Pop&lt;infer Head, any> ? Head : never;
-                        const t: Head = 'z';
                     </editor>
                     <aside class="notes">
-                        Well known trick: Use function varargs.
-                        <pre>type Tail&lt;T extends any[]> = ((...args: T) => void) extends (head: any, ...tail: infer Tail) => void ? Tail : never;</pre>
+                        Armed with this varargs exploit, we can devise a type-level list library.<br>
+                        This is how you use it:<br>
+                        <br>
+                        Create a list:<br>
+                        <pre>type MyList = List&lt;['a', 'b', 'c']>;</pre>
+                        Prepend an element to the list:<br>
+                        <pre>type MyList2 = Push&lt;'z', MyList>;</pre>
+                        Remove an element from the list:<br>
+                        <pre>type MyList3 = MyList2 extends Pop&lt;any, infer Tail> ? Tail : never;</pre>
+                        Get the first element:<br>
+                        <pre>type MyHead = MyList2 extends Pop&lt;infer Head, any> ? Head : never;</pre>
+                        <br>
+                        The usage of pop is a little convoluted, but you'll see why it works like this in a minute...
                     </aside>
                 </section>
                 <section>
-                    <p>Recursive type</p><editor data-trim style="min-height: 400px;">
+                    <p>Tuple flattening problems</p>
+                    <ul>
+                        <li><span style="color:red;text-decoration:line-through"><span style="color: white">"Rest" of a tuple</span></span></li>
+                        <li>Recursive types</li>
+                    </ul>
+                </section>
+                <section>
+                    <p>Recursive types</p><editor data-trim style="min-height: 400px;">
                         <hidden>
                             type List&lt;DATA extends any[]> = (...tail: DATA) => void;
                             type Push&lt;El, list extends List&lt;any>> = list extends List&lt;infer Data> ? (head: El, ...tail: Data) => void : never;
                             type Pop&lt;Head, Tail extends any[]> = (h: Head, ...tail: Tail) => void;
                         </hidden>
                         type Flatten&lt;T extends List&ltany>> = T extends Pop&lt;infer Head, infer Tail>
-                                ? unknown extends Head ? never : Head | Flatten&lt;List&lt;Tail>>
-                                : never;
+                                ? Head | Flatten&lt;List&lt;Tail>>
+                                : never
+
+                        type A = Flatten&lt;List&lt;['a', 'b', 'c']>>
                     </editor>
                     <aside class="notes">
                         Split the type into two cases: edge case and general case.
-                        <pre>
-                            type Flatten&lt;T extends List&lt;any>> = {
-                                rec: T extends Pop&lt;infer Head, infer Tail> ? Head | Flatten&lt;List&lt;Tail>> : never;
-                                end: never;
-                            };
-                        </pre>
-                        Then index this type by a condition
-                        <pre>
-                            type Flatten&lt;T extends List&lt;any>> = {
-                                tail: T extends Pop&lt;infer Head, infer Tail> ? Head | Flatten&lt;List&lt;Tail>> : never;
-                                end: never;
-                            } [
-                                T extends Pop&lt;unknown, infer Tail> ? 'end' : 'tail'
-                            ];
-                        </pre>
+<pre>
+type Flatten&lt;T extends List&lt;any>> = {
+    rec: T extends Pop&lt;infer Head, infer Tail> ? Head | Flatten&lt;List&lt;Tail>> : never
+    end: never
+};
+</pre>
+                        Here only one iteration is performed. Most of the list is still uncomputed. I can access the partial result by doing:
+                        <pre>type A = Flatten&lt;List&lt;['a', 'b', 'c']>>['rec']</pre>
+                        <br>
+                        But this needs to happen on each level of the recursion, automatically.<br>
+                        <br>
+                        I can try<br>
+                        <pre>type Flatten = { ... }['rec']</pre><br>
+                        But now the type is detected as a circular reference again!<br>
+                        And it makes sense: This recursion would be infinite, because I am never invoking the end case.<br>
+                        I need an exit condition...<br>
+<pre>
+type Flatten&lt;T extends List&lt;any>> = {
+    tail: T extends Pop&lt;infer Head, infer Tail> ? Head | Flatten&lt;List&lt;Tail>> : never;
+    end: never;
+} [
+    T extends Pop&lt;unknown, infer Tail> ? 'end' : 'tail'
+];
+</pre>
+                        The conditional type confuses the cycle detection algorithm!
                     </aside>
                 </section>
                 <section>
@@ -643,7 +756,7 @@ type ReturnOfTest = Retn&lt;typeof myTest>;
                             T extends Pop&lt;unknown, infer Tail> ? 'end' : 'tail'
                         ];
                     </editor>
-                    <aside class="notes">TS 3.7 introduces some kind of recursive type aliases which should make the syntax easier, but in practice a hack is still needed.</aside>
+                    <aside class="notes"></aside>
                 </section>
                 <section>
                     <p>Putting it all together</p>
@@ -677,149 +790,21 @@ type ReturnOfTest = Retn&lt;typeof myTest>;
                         </hidden>
                         declare function GET&lt;Args extends string[]>(str: TemplateStringsArray, ...args: Args): Endpoint&lt;Flatten&lt;Args>>;
                         const api = {
-                            getAllCats: GET`/api/cats`,
-                            getCatByName: GET`/api/cats/${'name'}`
+                            getAllCats: GET `/api/cats`,
+                            getCatByName: GET `/api/cats/${'name'}`
                         };
 
                         const client = createClient(api);
                         
                         const server = createServer(api);
                     </editor>
+                </section>
+
+                <section>
+                    <img src="./imgs/i-love-it.jpg" alt="" style="display: block; width: 60%; margin: auto;">
                     <p class="fragment">More at <a href="https://github.com/hmil/rest.ts">https://github.com/hmil/rest.ts</a></p>
                     <aside class="notes">
-                        Show that GET is a template tag and captures type of parameter.<br>
-                        Show that it doesn't work with a second param.
-                    </aside>
-                </section>
-
-
-                <!-- Section: Decorators, type checking a class from a method decorator -->
-                <section>
-                    <h2>Decorators</h2>
-                    <pre><code data-trim>
-                        @(some expression which evalutates to a function)
-                    </code></pre>
-                </section>
-                <section>
-                    <p>class decorator</p>
-                    <pre><code data-trim>
-                        function MyDecorator(t: any) {
-                        }
-
-                        @MyDecorator
-                        class MyClass {
-
-                        }
-                    </code></pre>
-                    <p>or</p>
-                    <pre><code data-trim>
-                        function MyDecorator() {
-                            return function(t: any) { }
-                        }
-
-                        @MyDecorator()
-                        class MyClass {
-
-                        }
-                    </code></pre>
-                </section>
-                <section>
-                    <p>class decorator</p>
-                    <p>...or</p>
-                    <pre><code data-trim>
-                        function MyDecoratorOverkillFactory() {
-                            return {
-                                d: () => {
-                                    return function(t: any) { };
-                                }
-                            };
-                        }
-
-                        @MyDecoratorOverkillFactory().d()
-                        class MyClass {
-
-                        }
-                    </code></pre>
-                </section>
-                <section>
-                    <p>Tip: Restrict the scope of your decorator</p>
-                    <editor data-trim data-tsconfig="strictPropertyInitialization=false">
-                        abstract class AModel {
-                            id: string;
-                        }
-
-                        function Model(m: typeof AModel) { }
-
-                        @Model
-                        class MyModel extends AModel {
-
-                        }
-                    </editor>
-                </section>
-                <section>
-                    <p>Member decorator</p>
-                    <editor data-trim data-tsconfig="strictPropertyInitialization=false">
-                        function MyDecorator(t: unknown, p: PropertyKey) {
-                            
-                        }
-
-                        class MyClass {
-                            @MyDecorator
-                            id: string;
-                        }
-                    </editor>
-                    <aside class="notes">
-                        Better yet:
-<pre>
-function MyDecorator&lt;T>(model: T, key: keyof T) {
-
-}
-</pre>
-                    </aside>
-                </section>
-                <section>
-                    <p>Decorators can't change the type of the object they decorate...</p>
-                    <p>...but they can verify it!</p>   
-                </section>
-                <section>
-                    <div class="h-layout">
-                        <div style="min-width: 400px;">
-                            <p>example:<br>Modelling library</p>
-                            <p>Trick #xxx: Class constraint enforcement from decorator via type-level programing.</p>
-                        </div>
-                        <editor data-trim data-tsconfig="strictPropertyInitialization=false">
-                            function ModelProperty&lt;T>(model: T, key: keyof T) {
-                                
-                            }
-                            class MyModel {
-                                @ModelProperty
-                                id: string;
-                            }
-                        </editor>
-                    </div>
-                    <aside class="notes">
-                        This library lets you declare models for serialization/deserialization (eg. db, network, domain...)
-                        What if we want all members to be declared optional?
-                        <pre>ModelProperty&lt;T, K extends keyof T>(model: VerifyModel&lt;T, K>, key: K
-type VerifyModel&lt;T, K extends keyof T> = undefined extends T[K] ? T : never;</pre>
-                        Can we make the error message more friendly?
-                        <pre>type ERR_NOT_OPTIONAL = "Error: Model properties must be optional</pre>
-                        What if we want to add a default?
-                        <pre>type DefaultProvider&lt;T> = {
-default: () => T;
-}
-
-type ModelPropertyParams = Partial&lt;DefaultProvider&lt;any>>;</pre>
-                        <pre>TDefaults extends DefaultProvider&lt;infer DefaultType> ? T : ERR_NOT_OPTIONAL;</pre>
-                        We can also check the type of the default value...
-                        <pre>DefaultType extends T[K] ? T : ERR_BAD_TYPE</pre>
-                        But if I specify a bad default type to an optional member...<br>
-                        Let's refactor a bit first
-                        <pre>type VerifyDefaultType&lt;T, TDefaults, ExpectedType, Else> = 
-TDefaults extends DefaultProvider&lt;infer DefaultType> ?
-DefaultType extends ExpectedType ? T : ERR_BAD_TYPE
-: Else;</pre>
-                        
+                        We won by combining a variable-arguments hack and exploiting a limitation of the circular reference detection code!
                     </aside>
                 </section>
 
@@ -833,49 +818,94 @@ DefaultType extends ExpectedType ? T : ERR_BAD_TYPE
                     </aside>
                 </section>
                 <section>
-                    <img src="./imgs/turing-machine.jpg" alt="" />
-                    <img src="./imgs/lambda-calculus.png" alt="" />
-                    <aside class="notes">If you've studied CS at EPFL, this might bring back some trauma.<br>
-                        Don't worry, the next 15 minutes of the session will be only this.<br>
-                        
-                        In the 1930s, computability theory was a hot topic. 
-                        Kurt Gödel and Jacques Herbrand created a formal definition of "general recursive functions".<br>
-                        Alan Turing developed a theoretical machine capable of computing a bunch of functions.<br>
-                        Alonzo Church developed a "language" called lambda-calculus which could also compute a bunch of stuff.<br>
-                        Church and Turing proved that these were all equivalent.
-                    
-                        Although we still don't really know what computable means, we know that all attempts to construct machines of
-                        computation have, at best, the same capabilities as these machines. There are however well known problems Turing machines can not solve.<br>
+                    <p>What is <em>everything</em>?</p>
+                    <p class="fragment"><em>An inaccurate tale of the origins of computing science...</em></p>
+                    <aside class="notes">
+                        We must first define what _everything_ actually is.<br>
                         <br>
-                        So in short, the question is...
-                </aside>
+                        Luckily for us, these guys in black and white figured it out already.<br>
+                        <br>
+                        In the 1930s, the question of computability was a hot topic (unlike today, when it's butchered at the end of JavaScript meetups).<br>
+                        <br>
+                        Alan Turing and Alonzo Church were studying models of computation in the early days...
+                    </aside>
+                </section>
+                <section>
+                    <img src="./imgs/turing.jpg" alt="" style="display: inline-block; width: 400px">
+                    <img src="./imgs/church.jpg" alt="" style="display: inline-block; width: 400px">
+                </section>
+                <section>
+                    <p>What is <em>everything</em>?</p>
+                    <div style="display: flex; flex-direction: row; align-items: center">
+                        <img src="./imgs/turing-machine.jpg" alt=""/>
+                        <div class="fragment" style="padding: 20px; font-size: 70px;"> ≡ </div>
+                        <img src="./imgs/lambda-calculus.png" alt="" />
+                    </div>
+                    <aside class="notes">
+                        Turing came up with a theoretical machine (now dubbed the Turing machine) which could "compute stuff".<br>
+                        Meanwhile, Church devised a mathematical language that could also "compute stuff".<br>
+                        <br>
+                        They both tried to formalize what their respective systems could compute, in vain...<br>
+                        Until one day, they figured that their models, as well as a third one which for some reason isn't as popupar as the two former, were equivalent.<br>
+                        <br>
+                        Since then, the benchmark for how powerful a logical tool is has been "can it simulate a turing machine"? If it can, it is called "Turing complete".<br>
+                        <br>
+                        It could as well have been "can it simulate lambda-calculus" and "lambda-complete" - since this is equivalent - but for some reason the version that stuck in history was the Turing one. 
+                    </aside>
                 </section>
                 <section>
                     <h2>Is TypeScript Turing Complete?</h2>
+                    <p class="fragment">Can it simulate a turing machine?</p>
                     <aside class="notes">
-                        Is TS equivalent to a Turing machine? (aka. Turing Complete).
+                        So, we know TS is probably not more powerful than a Turing machine because:<br>
+                        a. It runs inside a computer which is itself no more powerful than a T. machine<br>
+                        b. This would be the biggest scientific breakthrough of the century so far.<br>
 
-                        To prove it, all we need to do is implement a Turing machine, or an equivalent machine.<br>
-                        If we succeed, then we know the Type system of TypeScript is just as powerful as the runtime language it describes.<br>
-                        If not, then we don't really know.
+                        So the question really is, can TS simulate a Turing machine?
                     </aside>
                 </section>
                 <section>
                     <p>Can we implement lambda calculus in TypeScript?</p>
                     <h2 class="fragment">[NSFW]</h2>
                     <p class="fragment">Do not try this at <span style="text-decoration: line-through">home</span> work.</p>
-                    <aside class="notes">It turns out that, for our purposes, lambda calculus is much easier to implement than a turing machine.</aside>
+                    <aside class="notes">
+                        We'll use lambda calculus because it is a much better fit for our task than a turing machine.
+                    </aside>
                 </section>
                 <section>
-                    <img src="./imgs/lambda1.png" alt="" style="max-width: 50%">
-                    <pre><code data-trim>
+                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+                        <div>
+                            Variable:
+                            <pre style="width: 300px; text-align: center"><code data-trim>x</code></pre>
+                            <pre class="fragment" style="width: 300px; text-align: center"><code data-trim>var x</code></pre>
+                        </div>
+                        <div>
+                            Abstraction:
+                            <pre style="width: 400px; text-align: center"><code data-trim>λx. &lt;something></code></pre>
+                            <pre class="fragment" style="width: 400px; text-align: center"><code data-trim>x => &lt;something></code></pre>
+                        </div>
+                        <div>
+                            Application:
+                            <pre style="width: 500px; text-align: center"><code data-trim>&lt;something1> &lt;something2></code></pre>
+                            <pre class="fragment" style="width: 500px; text-align: center"><code data-trim>&lt;something1>(&lt;something2>)</code></pre>
+                        </div>
+                    </div>
+                    <!-- <img src="./imgs/lambda1.png" alt="" style="max-width: 50%">
+                    <pre class="fragment"><code data-trim>
                         λx. λy. x y 
                         
                         (x: any) => (y: any) => x(y)
-                    </code></pre>
+                    </code></pre> -->
                     <aside class="notes">
-                        Lambda calculus is extremely simple.
-                        image sauce: http://bach.ai/lambda-calculus-for-absolute-dummies/</aside>
+                        Lambda calculus is extremely simple. There are only 3 constructs in total:<br>
+                        variablesl, abstractions and applications.<br>
+                        A variable is like a variable in any old programing language.<br>
+                        An abstraction can be thought of as a function in JS<br>
+                        An application is what happens when you apply an expression to another expression (which hopefully evaluates to a function)<br>
+                        <br>
+                        Looking at this, it's easy to see that JavaScript is turing complete. We have here a direct mapping from lambda calculus to JavaScript.<br>
+                        But this is not what we are looking for, we want to evaluate these expressions in the type system itself!
+                    </aside>
                 </section>
                 <section>
                     <p>Example</p>
@@ -884,9 +914,13 @@ DefaultType extends ExpectedType ? T : ERR_BAD_TYPE
                         = y
                     </code></pre>
                     <pre class="fragment"><code data-trim>
-                          (λx. x x) (λx. x x)
-                        = (λx. x x) (λx. x x)
+                          (λx. x x) (λy. y y)
+                          (λx=(λy. y y). x x)
+                        = (λy. y y) (λy. y y)
                     </code></pre>
+                    <aside class="notes">
+                        Let's take a look at some examples.
+                    </aside>
                 </section>
                 <section>
                     <p>Example</p>
@@ -897,14 +931,15 @@ DefaultType extends ExpectedType ? T : ERR_BAD_TYPE
 
                         SUCC = λn. λf. λx. f ((n f) x)
                     </code></pre>
-                    <pre class="fragment"><code data-trim>SUCC 0 = (λn. λf. λx. f ((n f) x)) (λf. λx. x)</code></pre>
-                    <pre class="fragment"><code data-trim>SUCC 0 = λf. λx. f (((λf. λx. x) f) x)</code></pre>
-                    <pre class="fragment"><code data-trim>SUCC 0 = λf. λx. f ((λx. x) x)</code></pre>
-                    <pre class="fragment"><code data-trim>SUCC 0 = λf. λx. f x</code></pre>
+                    <pre class="fragment"><code data-trim>SUCC 0 = (λn. λf. λx. f ((n f) x)) 0</code></pre>
+                    <pre class="fragment"><code data-trim>SUCC 0 =      λf. λx. f ((0 f) x)</code></pre>
+                    <pre class="fragment"><code data-trim>SUCC 0 =      λf. λx. f (((λf. λx. x) f) x)</code></pre>
+                    <pre class="fragment"><code data-trim>SUCC 0 =      λf. λx. f ((     λx. x)    x)</code></pre>
+                    <pre class="fragment"><code data-trim>SUCC 0 =      λf. λx. f x</code></pre>
                     <pre class="fragment"><code data-trim>SUCC 0 = 1</code></pre>
                     <aside class="notes">
                         This gives you an idea of the convoluted way one has to think in order to use lambda-calculus.
-                        But believe it or not, this is just as powerful as any Turing Machine.
+                        But believe it or not, this can solve any problem a Turing Machine can.
                     </aside>
                 </section>
                 <section>
@@ -959,42 +994,38 @@ DefaultType extends ExpectedType ? T : ERR_BAD_TYPE
                 </section>
                 <section>
                     <p>Reduction step</p>
-                    <pre><code data-trim>
+                    <pre style="text-align: center;"><code data-trim>
                         (λx. ... x ...) y    ->     ... y ...
                     </code></pre>
                 </section>
                 <section>
-                    <div class="h-layout">
-                        <div style="min-width: 500px">
-                            <div>
-                                <p>Reduction step</p>
-                                <pre><code data-trim>
-                                        ( λx. λy. x ) ( λz. z )
-                                        -> λy. ( λz. z )
-                                </code></pre>
-                            </div>
-                            <div class="fragment">
-                                <p>Shadowing</p>
-                                <pre><code data-trim>
-                                        ( λx. x λx. x ) ( λz. z )
-                                        -> ( λz. z ) λx. x
-                                </code></pre>
-                            </div>
-                        </div>
-                        <editor data-trim>
-                            <hidden>
-                                type Variable&lt;T extends string> = T;
-                                type Application&lt;M, N> = [M, N];
-                                type Abstraction&lt;Var extends string, Expr> = (l: Var) => Expr;
-                            </hidden>
-                            type Reduce&lt;T> = ;
-
-                            type A = (l: 'x') => (l: 'y') => 'x';
-                            type B = (l: 'z') => 'z';
-
-                            type test = Reduce<[A, B]>;
-                        </editor>
+                    <!-- <p>Reduction step</p> -->
+                    <!-- <div>
+                        <pre><code data-trim>
+                                ( λx. λy. x ) ( λz. z )
+                                -> λy. ( λz. z )
+                        </code></pre>
                     </div>
+                    <div class="fragment">
+                        <p>Shadowing</p>
+                        <pre><code data-trim>
+                                ( λx. x λx. x ) ( λz. z )
+                                -> ( λz. z ) λx. x
+                        </code></pre>
+                    </div> -->
+                    <editor data-trim>
+                        <hidden>
+                            type Variable&lt;T extends string> = T;
+                            type Application&lt;M, N> = [M, N];
+                            type Abstraction&lt;Var extends string, Expr> = (l: Var) => Expr;
+                        </hidden>
+                        type Reduce&lt;T> = ;
+
+                        type A = (l: 'x') => (l: 'y') => 'x'
+                        type B = (l: 'z') => 'z'
+
+                        type test = Reduce<[A, B]>
+                    </editor>
                     <aside class="notes">
                         <pre>type Reduce&lt;T> = T extends Application&lt;infer Left, infer Right> ?
 Left extends Abstraction&lt;infer Varname, infer Expr> ?
@@ -1005,25 +1036,35 @@ T;</pre>
 Expr extends Variable&lt;infer VarVarname> ?
     VarVarname extends Varname ? Replacement : Expr :
 Expr extends Abstraction&lt;infer AbstrVarname, infer AbstrExpr> ?
-    Abstraction&lt;AbstrVarname, ReplaceRec&lt;AbstrExpr, Varname, Replacement>> :
+    Abstraction&lt;AbstrVarname, Replace&lt;AbstrExpr, Varname, Replacement>> :
 Expr extends Application&lt;infer Left, infer Right> ? 
     Application&lt;ReplaceRec&lt;Left, Varname, Replacement>, ReplaceRec&lt;Right, Varname, Replacement>> :
-Expr;</pre>
-                        Then apply recursive trick.<br>
+Expr</pre>
+                        We need to make this expression recursive. But this time I don't want to re-write the end condition
+                        like we did before, because this expression is complex.<br>
+                        There's an other, even more ridiculous, trick you can use here...<br>
+<pre>
+interface Replace&lt;Expr, Varname, Replacement, t extends 't'> {
+    t: ... same expression as above. 
+           Substitute `Replace&lt;...>` with `Replace&lt;..., t>[t]`
+}
+</pre>
                         ---<br>
                         Show reduction of test expr<br>
                         ---<br>
                         Note shadowing special case:
-                        <pre>type A = (l: 'x') => ['x', (l: 'x') => 'x'];</pre>
+                        <pre>type A = (l: 'x') => ['x', (l: 'x') => 'x']</pre>
                         <pre>Varname extends AbstrVarname ? Expr : Abstraction&lt;...</pre>
                         <br>
+                        Show that expression is not fully reduced. Need to write in another Reduce.<br>
+                        We'll address this problem later.<br>
                         ---<br>
                         Try to reduce SUCC ZERO. Do not explain what 0, 1 and SUCC, mean. Just that SUCC 0 should equal 1.
-                        <pre>type _0 = (l: 'f') => (l: 'x') => 'x';
+                        <pre>type _0 = (l: 'f') => (l: 'x') => 'x'
 type _1 = (l: 'f') => (l: 'x') => ['f', 'x']
-type SUCC = (l: 'n') => (l: 'f') => (l: 'x') => ['f',[['n','f'],'x']];
+type SUCC = (l: 'n') => (l: 'f') => (l: 'x') => ['f',[['n','f'],'x']]
 
-type SUCC_0 = Reduce&lt;[SUCC, _0]>;</pre>
+type SUCC_0 = Reduce&lt;[SUCC, _0]></pre>
                         SHOW THAT inner expression is not reduced.<br>Wrapping in more Reduce does not help.<br>
                         Add this to <strong>Reduce</strong>:
                         <pre>T extends Abstraction&lt;infer Varname, infer Expr> ?
@@ -1191,9 +1232,228 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
 
                         It just happens that the TS type-system is a very limited machine. So much so that it can not even multiply two single-digit numbers.
 
-                        The limit is hardcoded in the source code of TS. TODO: Link to the issue in TS repo. It doesn't change the fact that TS is a TC language.
+                        The limit is hardcoded in the source code of TS.. It doesn't change the fact that TS is a TC language.
                     </aside>
                 </section>
+
+                <section>
+                    <h2>The end</h2>
+                    <div class="h-layout">
+                        <div>
+                            <p>
+                                <br>
+                                <br>
+                                Stay in touch<br>
+                                <br>
+                                <div style="text-align: left">
+                                    <div style="padding-bottom: 10px"><a href="https://blog.hmil.fr" style="color: white">🌍 blog.hmil.fr</a></div>
+                                    <div style="padding-bottom: 10px"><a href="https://github.com/hmil" style="color: white"><img src="./imgs/github.png" alt="" style="width: 50px; border: none; background-color: transparent; box-shadow: none; margin: 0"> hmil</a></div>
+                                    <div style="padding-bottom: 10px"><a href="https://twitter.com/HadrienMilano" style="color: white">
+                                        <img src="./imgs/twitter.png" alt="" style="width: 50px; border: none; background-color: transparent; box-shadow: none; margin: 0"> HadrienMilano</a></div>
+                                </div>
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                <br>
+                                <br>
+                                Thanks:<br>
+                                <br>
+                                <img src="./imgs/appdynamics.png" alt="" style="width: 200px; border: none; background-color: transparent; box-shadow: none; margin: 30px;">
+                                <img src="./imgs/cisco.png" alt="" style="width: 200px; border: none; background-color: transparent; box-shadow: none; margin: 30px;"><br>
+                                <img src="./imgs/jsromandie.jpeg" alt="" style="border: none; background-color: transparent; box-shadow: none; margin: 30px;">
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section>
+                    <h2>B-roll</h2>
+                    <p class="fragment">Raw clips that didn't make it to the presentation.</p>
+                </section>
+
+                <section>
+                    <p>Conditional type inference distributivity</p>
+                    <editor data-trim>
+                        type Strings = 'a' | 'b' | 'c';
+
+                        type Test&lt;T> = T extends 'b' ? 'YES' : 'NO';
+                    </editor>
+                    <aside class="notes">
+                        The condition applies to each member of the union, separately, and is then merged into a new union.
+                    </aside>
+                </section>
+
+                <!-- Section: Decorators, type checking a class from a method decorator -->
+                <section>
+                    <h2>Decorators</h2>
+                    <pre><code data-trim>
+                        @(some expression which evalutates to a function)
+                    </code></pre>
+                </section>
+                <section>
+                    <p>class decorator</p>
+                    <pre><code data-trim>
+                        function MyDecorator(t: any) {
+                        }
+
+                        @MyDecorator
+                        class MyClass {
+
+                        }
+                    </code></pre>
+                    <p>or</p>
+                    <pre><code data-trim>
+                        function MyDecorator() {
+                            return function(t: any) { }
+                        }
+
+                        @MyDecorator()
+                        class MyClass {
+
+                        }
+                    </code></pre>
+                </section>
+                <section>
+                    <p>class decorator</p>
+                    <p>...or</p>
+                    <pre><code data-trim>
+                        function MyDecoratorOverkillFactory() {
+                            return {
+                                d: () => {
+                                    return function(t: any) { };
+                                }
+                            };
+                        }
+
+                        @MyDecoratorOverkillFactory().d()
+                        class MyClass {
+
+                        }
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Tip: Restrict the scope of your decorator</p>
+                    <editor data-trim data-tsconfig="strictPropertyInitialization=false">
+                        abstract class AModel {
+                            id: string;
+                        }
+
+                        function Model(m: typeof AModel) { }
+
+                        @Model
+                        class MyModel extends AModel {
+
+                        }
+                    </editor>
+                </section>
+                <section>
+                    <p>Member decorator</p>
+                    <editor data-trim data-tsconfig="strictPropertyInitialization=false">
+                        function MyDecorator(t: unknown, p: PropertyKey) {
+                            
+                        }
+
+                        class MyClass {
+                            @MyDecorator
+                            id: string;
+                        }
+                    </editor>
+                    <aside class="notes">
+                        Better yet:
+<pre>
+function MyDecorator&lt;T>(model: T, key: keyof T) {
+
+}
+</pre>
+                    </aside>
+                </section>
+                <section>
+                    <p>Decorators can't change the type of the object they decorate...</p>
+                    <p>...but they can verify it!</p>   
+                </section>
+                <section>
+                    <div class="h-layout">
+                        <div style="min-width: 400px;">
+                            <p>example:<br>Modelling library</p>
+                            <p>Trick #xxx: Class constraint enforcement from decorator via type-level programing.</p>
+                        </div>
+                        <editor data-trim data-tsconfig="strictPropertyInitialization=false">
+                            function ModelProperty&lt;T>(model: T, key: keyof T) {
+                                
+                            }
+                            class MyModel {
+                                @ModelProperty
+                                id: string;
+                            }
+                        </editor>
+                    </div>
+                    <aside class="notes">
+                        This library lets you declare models for serialization/deserialization (eg. db, network, domain...)
+                        What if we want all members to be declared optional?
+                        <pre>ModelProperty&lt;T, K extends keyof T>(model: VerifyModel&lt;T, K>, key: K
+type VerifyModel&lt;T, K extends keyof T> = undefined extends T[K] ? T : never;</pre>
+                        Can we make the error message more friendly?
+                        <pre>type ERR_NOT_OPTIONAL = "Error: Model properties must be optional</pre>
+                        What if we want to add a default?
+                        <pre>type DefaultProvider&lt;T> = {
+default: () => T;
+}
+
+type ModelPropertyParams = Partial&lt;DefaultProvider&lt;any>>;</pre>
+                        <pre>TDefaults extends DefaultProvider&lt;infer DefaultType> ? T : ERR_NOT_OPTIONAL;</pre>
+                        We can also check the type of the default value...
+                        <pre>DefaultType extends T[K] ? T : ERR_BAD_TYPE</pre>
+                        But if I specify a bad default type to an optional member...<br>
+                        Let's refactor a bit first
+                        <pre>type VerifyDefaultType&lt;T, TDefaults, ExpectedType, Else> = 
+TDefaults extends DefaultProvider&lt;infer DefaultType> ?
+DefaultType extends ExpectedType ? T : ERR_BAD_TYPE
+: Else;</pre>
+                        
+                    </aside>
+                </section>
+
+                <section>
+                    <div class="h-layout">
+                        <div style="min-width: 500px;">
+                            <p style="margin-top: 50%">Trick #3<br>Type guards</p>
+                        </div>
+                        <editor data-trim>
+                            <hidden>
+                                interface HumanUser {
+                                    type: 'human';
+                                    firstname: string;
+                                    lastname: string;
+                                }
+                                interface BotUser {
+                                    type: 'bot';
+                                    handle: string;
+                                }
+                                interface AlienUser {
+                                    type: 'alien',
+                                    codename: string
+                                }
+                                type AnyUser = HumanUser | BotUser | AlienUser;
+                            </hidden>
+                            function isHuman(t: AnyUser): t is HumanUser {
+                                return t.type === 'human';
+                            }
+
+                            function greet(user: AnyUser): string {
+                                
+                            }
+                        </editor>
+                    </div>
+                    <aside class="notes"><pre>
+                        if (isHuman(user)) {
+                            return user.firstname;
+                        }
+                        return `This is not a human: ${user.type}`;
+                    </pre></aside>
+                </section>
+
             </div>
         </div>
 
@@ -1208,6 +1468,7 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                 width: 1366,
                 height: 768,
                 hash: true,
+                progress: false,
                 dependencies: [
                     // { src: 'plugin/markdown/marked.js' },
                     // { src: 'plugin/markdown/markdown.js' },

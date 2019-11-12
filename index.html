@@ -83,63 +83,129 @@
                         <h2 style="display: block; margin-top: 40px;">10 Things You Did Not Know TypeScript Could Do</h2>
                     </div>
                     <aside class="notes">
-                        Thank you for coming here tonight to this talk entitled "10 Things you did not know TS could do".
-                        And thank you to those who bit on the clickbait by the way.
-
-                        Because this is a hold up! We are not going to talk about TypeScript. 
-                        I tricked you into coming here so I could spend the next hour talking about...
+                        Thank you for coming to this talk entitled "10 Things you did not know TS could do".<br>
+                        And thank you to those who bit on the clickbait by the way.<br>
                     </aside>
                 </section>
 
                 <section>
-                    <h2>Purpose of this talk:</h2>
-                    <img src="./imgs/vison.jpg" alt="" style="display: block; width: 60%; margin: auto;">
-
+                    <div class="h-layout">
+                        <div>
+                            <img src="./imgs/loved.png" alt="" style="display: block">
+                        </div>
+                        <div>
+                            <img src="./imgs/wanted.png" alt="" style="display: block">
+                        </div>
+                    </div>
                     <aside class="notes">
-                            ...the European mink (Mustela lutreola), a semiaquatic species of 
-                            mustelid critically threatened of extinction and virtually gone from all European biomes.
+                        Today we'll talk about TypeScript.
 
-                            Well, now TypeScript sounds like an interesting topic, doesn't it?
-
-                            (note: with this technique, you can make almost anything sound exciting)
+                        According to a popular developer survey, TS is the 3rd most loved language and 4th most wanted.
                     </aside>
                 </section>
 
                 <section>
-                    <h2>(actual) Purpose of this talk</h2>
+                    <div class="h-layout">
+                        <div style="text-align: left; padding-top: 20px; padding-left: 100px">
+                            <img src="./imgs/me.png" alt="" style="border: none; width: 200px; background-color: transparent; box-shadow: none">
+                            <p>Hadrien Milano</p>
+                            <p>Software Engineer, UI</p>
+                            <div style="float: left">@</div>&nbsp;
+                            <img src="./imgs/appdynamics.png" alt="" style="width: 200px; margin: auto; border: none">
+                        </div>
+                        <div>
+                            <img class="fragment" src="./imgs/dashboard.png" alt="" style="display: block; margin: auto; border: none; width: 700px; margin-top: 100px">
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        My name is Hadrien Milano, I work at AppDynamics as a UI dev. We build fancy dashboards like this one.<br>
+                        <br>
+                        While I like pretty UIs like this one, the thing that really drives me is pretty code.<br>
+                        And this explains why I love TypeScript: an attempt to bring order into the chaos that is JavaScript.
+                    </aside>
+                </section>
+
+                <section>
+                    <div style="position: absolute; margin-left: 420px">
+                        <img class="fragment" src="./imgs/pavement.jpg" alt="" style="display: block; margin: auto; border: none; width: 500px; margin-top: 40px">
+                    </div>
+                    <div style="position: absolute; margin-left: 410px">
+                        <img class="fragment" src="./imgs/cookie.jpg" alt="" style="display: block; margin: auto; border: none; width: 500px; margin-top: 80px">
+                    </div>
+                    <div style="position: absolute; margin-left: 440px">
+                        <img class="fragment" src="./imgs/tiles.jpg" alt="" style="display: block; margin: auto; border: none; width: 550px; margin-top: 30px">
+                    </div>
+                    <div style="position: absolute; margin-left: 414px">
+                        <img class="fragment" src="./imgs/coke.jpg" alt="" style="display: block; margin: auto; border: none; width: 600px; margin-top: 140px">
+                    </div>
+                    <div style="position: absolute; margin-left: 414px">
+                        <img class="fragment" src="./imgs/simple.png" alt="" style="display: block; margin: auto; border: none; width: 600px; margin-top: 140px">
+                    </div>
+                    <div style="position: absolute; margin-left: 435px">
+                        <img class="fragment" src="./imgs/magician.jpg" alt="" style="display: block; margin: auto; border: none; width: 500px; margin-top: 100px">
+                    </div>
+                    <div style="position: absolute; margin-left: 404px">
+                        <img class="fragment" src="./imgs/complicated.png" alt="" style="display: block; margin: auto; border: none; width: 630px; margin-top: 120px">
+                    </div>
+                    <div style="position: absolute; margin-left: 380px">
+                        <img class="fragment" src="./imgs/refinery.jpg" alt="" style="display: block; margin: auto; border: none; width: 700px; margin-top: 100px">
+                    </div>
+                    <div style="position: absolute; margin-left: 100px">
+                        <img class="fragment" src="./imgs/github-pr.png" alt="" style="display: block; margin: auto; border: none; width: 1100px; margin-top: 300px">
+                    </div>
+                    <div style="position: absolute; margin-left: 420px">
+                        <img class="fragment" src="./imgs/fuckyou.png" alt="" style="display: block; margin: auto; border: none; width: 600px; margin-top: 100px">
+                    </div>
+                    <aside class="notes">
+                        Once in a while I'll see a piece of code which, although it works, could be improved.<br>
+                        <br>
+                        [4 slides]
+                        <br>
+                        So I set out to the task of improving it. I come up with a simple plan.<br>
+                        <br>
+                        And quickly I find that there is more to it than I initially thought.<br>
+                        <br>
+                        So I iterate and work around the different complications.<br>
+                        <br>
+                        After a while I end up with a monstruosity of TypeScript hacks and tricks to do just that one thing I wanted to do.<br>
+                        I submit it for code review and then...<br>
+                        My coworkers ask me to burn that code to hell.<br>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Focus of this talk</h2>
                     <img src="./imgs/purpose.png" alt="" style="display: block; width: 60%; margin: auto;">
-
                     <aside class="notes">
-                        What are we actually here to discuss tonight?
-
-                        We'll talk about TypeScript. 
-                        But not the kind that's useful in your everyday job. 
-                        Not the one you read about on hackernews.
-                        
-                        No, the kind of TypeScript you briefly overhear in the break room before an awkward silence settles as you walk in.
-
-                        The kind _they_ don't want you to know about...
+                        But this code is a testimony of a voyage to the edge of TypeScript.<br>
+                        I can't let this go to waste.<br>
+                        <br>
+                        And so this is what this meetup is about.<br>
+                        To give this werid code an afterlife so you too can be transported to the edge of TypeScript, and in this process, learn more about this popular language.<br>
+                        <br>
+                        Obviously you will not become experts just watching this presentation, but you'll walk out with a better understanding of it.
                     </aside>
-                </section>
-
-                <section>
-                    <iframe width="1200" height="768" data-src="https://www.youtube.com/embed/NzlG28B-R8Y?start=6&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                    </iframe>
                 </section>
 
                 <!-- Section: fundamentals -->
                 <section>
                     <h2>Foundations</h2>
-                    <p>
+                    <p class="fragment">
                         <span style="color: #5b94ec">Types</span> + <span style="color: #e8d11d">JavaScript</span> = 
                         <span style="color: #5b94ec">Type</span><span style="color: #e8d11d">Script</span>
                     </p>
                     <aside class="notes">
-                        Before we get into the weird stuff, we need to start with the basics. Let's see how familiar this room is with TypeScript...
-
-                        [Poll the room]
-
-                        Let's quickly review the basics.
+                        Before we get into the weird stuff, we need to start with the basics. Let's see how familiar this room is with TypeScript...<br>
+                        <br>
+                        [Poll the room]<br>
+                        <br>
+                        Let's quickly review the basics.<br>
+                        <br>
+                        ---<br>
+                        <br>
+                        Mais avant de plonger dans les choses extrèmes, assurons nous que tout le monde soit au clair avec les principes de bases.<br>
+                        <br>
+                        [Sondage]<br>
                     </aside>
                 </section>
                 <section>
@@ -150,16 +216,11 @@
                     </editor>
                     <aside class="notes">
                         TS adds types to variables to maximize correctness of the code.<br>
-                        
                         This is valid JavaScript, but it's not valid TypeScript. TS, by default considers that variables don't change type.<br>
-
                         Notice that the error could be either in the first or the second line.<br>
-
                         Maybe I want this variable to be a number. Or I want it to be a string, or both!<br>
-
                         If I want both, I should write <pre>let someNumber: string | number = 1;</pre><br>
-
-                        Whe I don't write any type annotation, TS infers the type from the right hand side.
+                        When I don't write any type annotation, TS infers the type from the right hand side.<br>
                     </aside>
                 </section>
                 <section>
@@ -201,8 +262,13 @@
                 <section>
                     <h2>Operators</h2>
                     <aside class="notes">
-                        With what we've seen so far, you already know 60% of what you'll ever need in TS.<br>
-                        Let's see the next most useful feature in TS: operators.
+                        With what we've seen so far, you already know 60% of what you'll ever need in TS.<br><br>
+                        But you are still missing a few concepts required to start doing crazy shit.<br>
+                        <br>
+                        ---
+                        <br>
+                        Ce qu'on a vu jusqu'à maintenant c'est 60% de ce dont vous aurez jamais besoin en TypeScript.<br><br>
+                        Mais il vous manque encore qulques concepts pour pouvoir vous lancer des des cas extrèmes.<br>
                     </aside>
                 </section>
                 <section>
@@ -241,36 +307,25 @@
                         function render(template: string, ...args: SafeString[]) { /* ... */ }
                     </editor>
                     <aside class="notes">
-                        And this leads us to our first trick!
+                        And this leads us to our first trick!<br>
+                        As you know protecting against XSS is hard. It's easy to miss a spot, but one breach is enough to compromise your app's security.<br>
+                        <br>
+                        __isEscaped is a "pseudo type" or "virtual type". It doesn't exist at runtime.<br>
                         <pre>
 const userName = sanitize(getUserInput());
 render("Hello %name%", userName);
-                    </pre></aside>
-                </section>
-                <section>
-                    <p>Trick #1&half;</p>
-                    <editor data-trim style="height: 300px;">
-                        <hidden>
-                            declare function escapeHtmlString(s: string): string;
-                            declare function getUserInput(): string;
-                            type SafeString = string & { __isEscaped: true };
-                            function sanitize(raw: string): SafeString {
-                                return escapeHtmlString(raw) as SafeString;
-                            }
-                        </hidden>
-                        function html<T extends string[]>(body: TemplateStringsArray, ...args: string[]): string {
-                            let builder = '';
-                            // ...
-                            return builder;
-                        }
-                        const userName = getUserInput();
-
-                        html`Hello ${userName}!`; // "Hello John!"
-                    </editor>
-                    <aside class="notes"><pre>
-                        This is a JS tagged template. In TS they are type-checked! <br>
-                        Replace argument string[] with SafeString[] .
-                    </pre></aside>
+                    </pre>
+                    <br>
+                    ---<br>
+                    Ceci nous amène à la première astuce.<br>
+                    Comme vous le savez il est dificile de se protéger des XSS.<br>
+                    On peut facilement oublier une variable.<br>
+                    Mais un seul oubli est suffisant pour compromettre votre app!<br>
+                    <br>
+                    On peut utiliser TS pour se prémunir contre les XSS!<br>
+                    <br>
+                    sanitize passe la string dans une fonction d'échappement.<br>
+                </aside>
                 </section>
                 <section>
                     <p>Union</p>
@@ -279,10 +334,12 @@ render("Hello %name%", userName);
                             type User = { handle: string; };
                             type Admin = { admin: true };
                             type Moderator = { modo: true };
+
+                            declare function getUser(): any;
                         </hidden>
                         function anyone(who: Admin | User) { /* ... */ }
                         
-                        let john: Admin;
+                        let john: Admin = getUser();
                         anyone(john);
                     </editor>
                     <aside class="notes">
@@ -410,69 +467,12 @@ if (user.kind === 'human') {
                     </pre></aside>
                 </section> -->
                 <section>
-                    <div class="h-layout">
-                        <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching (without return type)</p>
-                            <p class="fragment">Bonus trick<br>Type-level error messages</p>
-                        </div>
-                        <editor data-trim>
-                            <hidden>
-                                interface HumanUser {
-                                    type: 'human';
-                                    firstname: string;
-                                    lastname: string;
-                                }
-                                interface BotUser {
-                                    type: 'bot';
-                                    handle: string;
-                                }
-                                interface AlienUser {
-                                    type: 'alien',
-                                    codename: string
-                                }
-                                type AnyUser = HumanUser | BotUser | AlienUser;
-
-                                declare function postMessage(s: string): void;
-                            </hidden>
-
-                            function greet(user: AnyUser): void {
-                                switch (user.type) {
-                                    case 'human':
-                                        postMessage(`Hello ${user.firstname} ${user.lastname}!`);
-                                        break;
-                                    case 'bot':
-                                        postMessage(`0101000110 ${user.handle}`);
-                                        break;
-                                    // Am I missing something?
-                                }
-                            }
-                        </editor>
-                    </div>
-                    <aside class="notes">
-                        TypeScript has a type which means "should never happen". It is called <pre>never</pre>.<br>
-                        <br>
-                        Declare this function and use it in the <pre>default</pre> block.
-                        <pre>
-function isSwitchExhaustive(a: never) {
-    throw new Error('Unexpected case');
-}
-                    </pre>
-                    <br>
-                    For type-level error messages, change function parameter to:
-                    <pre>a: "ERROR: You are missing a case in this switch"</pre>
-                    <br>
-                    Why does this work?<br>
-                    Because unions can always be written as <pre>A | B | ... | never</pre>.<br>
-                    Never is what is left when you've removed everything from a union.
-                </aside>
-                </section>
-                <section>
                     <p>Conditional types</p>
                     <pre><code data-trim>
                         A extends B ? Yes : No;
                     </code></pre>
                     <aside class="notes">
-                        The last tool we need in our toolbox before we can enter the twilight zone.
+                        The last tool we need in our toolbox before we can get serious.
                     </aside>
                 </section>
                 <section>
@@ -489,18 +489,21 @@ function isSwitchExhaustive(a: never) {
                     <p>Conditional type inference</p>
                     <editor data-trim>
                         type MyTuple = ['one', 'two'];
-                        type T = MyTuple[1];
+                        type T = MyTuple extends [any, infer Second] ? Second : never;
                     </editor>
                     <img class="fragment" src="./imgs/ReturnType.png" />
                     <aside class="notes">
-                        We extract the second type in this tuple using an index access in the type.<br>
-                        But we could also extract it like this:<br>
-                        <pre>type T = MyTuple extends [any, infer Second] ? Second : never;</pre>
-                        And generalize this helper with...<br>
-                        <pre>type ExtractSecond<T> = T extends [any, infer Second] ? Second : 'not a 2-tuple';</pre>
+                        We capture a type in the matching pattern, and then use it<br>
+                        Note that the same thing could be done with
+                        <pre>type T = MyTuple[1]</pre>
+                        However, this can not be done without conditional type inference:
                         <br>
-                        As a practical usage example, see this definition from the standard library extracts the return type of a function.
+                        See this definition from the standard library extracts the return type of a function.
                     </aside>
+                </section>
+
+                <section>
+                    <p>Let's get serious!</p>
                 </section>
 
                 <!-- Section: recursive types, working with tuples, Rest.ts -->
@@ -670,11 +673,12 @@ function isSwitchExhaustive(a: never) {
                     </aside>
                 </section>
                 <section>
-                    <p>Tuple utilities (trick #todo)</p>
+                    <p>Tuple utilities (trick #4)</p>
                     <editor data-trim style="min-height: 400px;">
                         type List&lt;Data extends any[]> = (...tail: Data) => void;
                         type Push&lt;El, list extends List&lt;any>> = list extends List&lt;infer Data> ? (head: El, ...tail: Data) => void : never;
                         type Pop&lt;Head, Tail extends any[]> = (h: Head, ...tail: Tail) => void;
+                        type Tuple&lt;L extends List&lt;any>> = L extends List&lt;infer T> ? T : never;
                     </editor>
                     <aside class="notes">
                         Armed with this varargs exploit, we can devise a type-level list library.<br>
@@ -742,7 +746,7 @@ type Flatten&lt;T extends List&lt;any>> = {
                     </aside>
                 </section>
                 <section>
-                    <p>Trick #6: Recursive type</p>
+                    <p>Trick #5: Recursive type</p>
                     <editor data-trim style="min-height: 400px;">
                         <hidden>
                             type List&lt;DATA extends any[]> = (...tail: DATA) => void;
@@ -753,7 +757,7 @@ type Flatten&lt;T extends List&lt;any>> = {
                             tail: T extends Pop&lt;infer Head, infer Tail> ? Head | Flatten&lt;List&lt;Tail>> : never;
                             end: never;
                         } [
-                            T extends Pop&lt;unknown, infer Tail> ? 'end' : 'tail'
+                            T extends Pop&lt;unknown, any> ? 'end' : 'tail'
                         ];
                     </editor>
                     <aside class="notes"></aside>
@@ -801,7 +805,7 @@ type Flatten&lt;T extends List&lt;any>> = {
                 </section>
 
                 <section>
-                    <img src="./imgs/i-love-it.jpg" alt="" style="display: block; width: 60%; margin: auto;">
+                    <img class="fragment" src="./imgs/i-love-it.jpg" alt="" style="display: block; width: 60%; margin: auto;">
                     <p class="fragment">More at <a href="https://github.com/hmil/rest.ts">https://github.com/hmil/rest.ts</a></p>
                     <aside class="notes">
                         We won by combining a variable-arguments hack and exploiting a limitation of the circular reference detection code!
@@ -819,20 +823,21 @@ type Flatten&lt;T extends List&lt;any>> = {
                 </section>
                 <section>
                     <p>What is <em>everything</em>?</p>
-                    <p class="fragment"><em>An inaccurate tale of the origins of computing science...</em></p>
                     <aside class="notes">
                         We must first define what _everything_ actually is.<br>
                         <br>
+                    </aside>
+                </section>
+                <section>
+                    <img src="./imgs/turing.jpg" alt="" style="display: inline-block; width: 400px">
+                    <img src="./imgs/church.jpg" alt="" style="display: inline-block; width: 400px">
+                    <aside class="notes">
                         Luckily for us, these guys in black and white figured it out already.<br>
                         <br>
                         In the 1930s, the question of computability was a hot topic (unlike today, when it's butchered at the end of JavaScript meetups).<br>
                         <br>
                         Alan Turing and Alonzo Church were studying models of computation in the early days...
                     </aside>
-                </section>
-                <section>
-                    <img src="./imgs/turing.jpg" alt="" style="display: inline-block; width: 400px">
-                    <img src="./imgs/church.jpg" alt="" style="display: inline-block; width: 400px">
                 </section>
                 <section>
                     <p>What is <em>everything</em>?</p>
@@ -1173,6 +1178,9 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                 </section>
                 <section>
                     <p>or is it?</p>
+                    <div style="position: absolute; margin-left: 150px">
+                        <img class="fragment" src="./imgs/ahejlsberg.png" alt="" style="display: block; margin: auto; border: none; width: 900px; margin-top: 40px">
+                    </div>
                     <editor data-trim>
                         <hidden>
                             type Variable&lt;T extends string> = T;
@@ -1218,7 +1226,6 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                             }
 
                         </hidden>
-                        type _3 = (l: 'f') => (l: 'x') => ['f', ['f', ['f', 'x']]];
                         type _4 = (l: 'f') => (l: 'x') => ['f', ['f', ['f', ['f', 'x']]]];
                         type Mult = (l: 'm') => (l: 'n') => (l: 'f') => ['m', ['n', 'f']];
 
@@ -1271,6 +1278,90 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                 <section>
                     <h2>B-roll</h2>
                     <p class="fragment">Raw clips that didn't make it to the presentation.</p>
+                </section>
+
+                <section>
+                    <p>Trick #1&half;</p>
+                    <editor data-trim style="height: 300px;">
+                        <hidden>
+                            declare function escapeHtmlString(s: string): string;
+                            declare function getUserInput(): string;
+                            type SafeString = string & { __isEscaped: true };
+                            function sanitize(raw: string): SafeString {
+                                return escapeHtmlString(raw) as SafeString;
+                            }
+                        </hidden>
+                        function html<T extends string[]>(body: TemplateStringsArray, ...args: string[]): string {
+                            let builder = '';
+                            // ...
+                            return builder;
+                        }
+                        const userName = getUserInput();
+
+                        html`Hello ${userName}!`; // "Hello John!"
+                    </editor>
+                    <aside class="notes"><pre>
+                        This is a JS tagged template. In TS they are type-checked! <br>
+                        Replace argument string[] with SafeString[] .
+                    </pre></aside>
+                </section>
+
+                <section>
+                    <div class="h-layout">
+                        <div style="min-width: 500px;">
+                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching (without return type)</p>
+                            <p class="fragment">Bonus trick<br>Type-level error messages</p>
+                        </div>
+                        <editor data-trim>
+                            <hidden>
+                                interface HumanUser {
+                                    type: 'human';
+                                    firstname: string;
+                                    lastname: string;
+                                }
+                                interface BotUser {
+                                    type: 'bot';
+                                    handle: string;
+                                }
+                                interface AlienUser {
+                                    type: 'alien',
+                                    codename: string
+                                }
+                                type AnyUser = HumanUser | BotUser | AlienUser;
+
+                                declare function postMessage(s: string): void;
+                            </hidden>
+
+                            function greet(user: AnyUser): void {
+                                switch (user.type) {
+                                    case 'human':
+                                        postMessage(`Hello ${user.firstname} ${user.lastname}!`);
+                                        break;
+                                    case 'bot':
+                                        postMessage(`0101000110 ${user.handle}`);
+                                        break;
+                                    // Am I missing something?
+                                }
+                            }
+                        </editor>
+                    </div>
+                    <aside class="notes">
+                        TypeScript has a type which means "should never happen". It is called <pre>never</pre>.<br>
+                        <br>
+                        Declare this function and use it in the <pre>default</pre> block.
+                        <pre>
+function isSwitchExhaustive(a: never) {
+    throw new Error('Unexpected case');
+}
+                        </pre>
+                        <br>
+                        For type-level error messages, change function parameter to:
+                        <pre>a: "ERROR: You are missing a case in this switch"</pre>
+                        <br>
+                        Why does this work?<br>
+                        Because unions can always be written as <pre>A | B | ... | never</pre>.<br>
+                        Never is what is left when you've removed everything from a union.
+                    </aside>
                 </section>
 
                 <section>

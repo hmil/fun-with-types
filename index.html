@@ -132,17 +132,11 @@
                     <div style="position: absolute; margin-left: 410px">
                         <img class="fragment" src="./imgs/cookie.jpg" alt="" style="display: block; margin: auto; border: none; width: 500px; margin-top: 80px">
                     </div>
-                    <div style="position: absolute; margin-left: 440px">
-                        <img class="fragment" src="./imgs/tiles.jpg" alt="" style="display: block; margin: auto; border: none; width: 550px; margin-top: 30px">
-                    </div>
                     <div style="position: absolute; margin-left: 414px">
                         <img class="fragment" src="./imgs/coke.jpg" alt="" style="display: block; margin: auto; border: none; width: 600px; margin-top: 140px">
                     </div>
                     <div style="position: absolute; margin-left: 414px">
                         <img class="fragment" src="./imgs/simple.png" alt="" style="display: block; margin: auto; border: none; width: 600px; margin-top: 140px">
-                    </div>
-                    <div style="position: absolute; margin-left: 435px">
-                        <img class="fragment" src="./imgs/magician.jpg" alt="" style="display: block; margin: auto; border: none; width: 500px; margin-top: 100px">
                     </div>
                     <div style="position: absolute; margin-left: 404px">
                         <img class="fragment" src="./imgs/complicated.png" alt="" style="display: block; margin: auto; border: none; width: 630px; margin-top: 120px">
@@ -174,12 +168,16 @@
                 </section>
 
                 <section>
-                    <h2>Focus of this talk</h2>
-                    <img src="./imgs/purpose.png" alt="" style="display: block; width: 60%; margin: auto;">
                     <aside class="notes">
                         But this code is a testimony of a voyage to the edge of TypeScript.<br>
                         I can't let this go to waste.<br>
-                        <br>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Focus of this talk</h2>
+                    <img src="./imgs/purpose.png" alt="" style="display: block; width: 60%; margin: auto;">
+                    <aside class="notes">
                         And so this is what this meetup is about.<br>
                         To give this werid code an afterlife so you too can be transported to the edge of TypeScript, and in this process, learn more about this popular language.<br>
                         <br>
@@ -251,8 +249,6 @@
     name: 'wall-e'
 }</pre>
                         TS helps with auto-completion.<br>
-                        What if I don't want to discriminate based on biological domain?<br> Make isHuman optional.
-<pre>isHuman?: boolean;</pre>
                         TS has a built-in concept for these object types: an interface.<br>
 <pre>interface User { ... }</pre>
                     </aside>
@@ -263,7 +259,7 @@
                     <h2>Operators</h2>
                     <aside class="notes">
                         With what we've seen so far, you already know 60% of what you'll ever need in TS.<br><br>
-                        But you are still missing a few concepts required to start doing crazy shit.<br>
+                        But you are going to need operators to combine types and start doing interesting stuff.<br>
                         <br>
                         ---
                         <br>
@@ -287,9 +283,6 @@
                     <aside class="notes">
                         John is a user AND an admin AND a Moderator.<br>
                         If we inspect the type of john, we can see it has the properties of all types.<br>
-                        <br>
-                        I can write a function which accepts only admins:
-<pre>function adminOnly(who: Admin) { /* ... */ }</pre>
                     </aside>
                 </section>
                 <section>
@@ -326,6 +319,32 @@ render("Hello %name%", userName);
                     <br>
                     sanitize passe la string dans une fonction d'échappement.<br>
                 </aside>
+                </section>
+
+                <section>
+                    <p>Trick #1&half;</p>
+                    <editor data-trim style="height: 300px;">
+                        <hidden>
+                            declare function escapeHtmlString(s: string): string;
+                            declare function getUserInput(): string;
+                            type SafeString = string & { __isEscaped: true };
+                            function sanitize(raw: string): SafeString {
+                                return escapeHtmlString(raw) as SafeString;
+                            }
+                        </hidden>
+                        function html<T extends string[]>(body: TemplateStringsArray, ...args: string[]): string {
+                            let builder = '';
+                            // ...
+                            return builder;
+                        }
+                        const userName = getUserInput();
+
+                        html`Hello ${userName}!`; // "Hello John!"
+                    </editor>
+                    <aside class="notes"><pre>
+                        This is a JS tagged template. In TS they are type-checked! <br>
+                        Replace argument string[] with SafeString[] .
+                    </pre></aside>
                 </section>
                 <section>
                     <p>Union</p>
@@ -389,7 +408,7 @@ if (user.kind === 'human') {
                 <section>
                     <div class="h-layout">
                         <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #2&half;<br>Exhaustive matching</p>
+                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching</p>
                         </div>
                         <editor data-trim>
                             <hidden>
@@ -478,7 +497,7 @@ if (user.kind === 'human') {
                 <section>
                     <p>Conditional types</p>
                     <editor data-trim>
-                        type IsNumber&lt;T> = T extends number ? 'Yes' : 'No';
+                        type IsNumber&lt;T> = T extends number ? 'A number' : 'Not a number';
 
                         type A = IsNumber&lt;2>;
                         type B = IsNumber&lt;'hello'>;
@@ -512,7 +531,7 @@ if (user.kind === 'human') {
                     <editor data-trim style="min-height: 400px">
                         <hidden>
                             declare function createClient&lt;T>(api: T): { [k in keyof T]: (params?: any) => Promise&lt;any>};
-                            declare function createServer&lt;T>(api: T, server: { [k in keyof T]: (req: { params: any }) => void});
+                            declare function createServer&lt;T>(api: T, server: { [k in keyof T]?: (req: { params: any }) => void});
                         </hidden>
                         // Shared
                         const api = {
@@ -566,7 +585,7 @@ if (user.kind === 'human') {
                                 params: T['params'];
                             }
                             type HttpServer&lt;T extends Api> = {
-                                [k in keyof T]: (req: HttpRequest&lt;T[k]>) => void;
+                                [k in keyof T]?: (req: HttpRequest&lt;T[k]>) => void;
                             }
                             declare function createClient&lt;T extends Api>(def: T): HttpClient&lt;T>;
                             declare function createServer&lt;T extends Api>(def: T, serv: HttpServer&lt;T>): void;
@@ -663,9 +682,9 @@ if (user.kind === 'human') {
                 <section>
                     <p>Rest of a tuple</p>
                     <editor data-trim style="min-height: 400px;">
-                        type Head&lt;T extends any[]> = T[0]
+                        type Tail&lt;T extends any[]> = ;
 
-                        type test = Head&lt;['a', 'b', 'c']>
+                        type test = Tail&lt;['a', 'b', 'c']>
                     </editor>
                     <aside class="notes">
                         Well known trick: Use function varargs.
@@ -708,8 +727,9 @@ if (user.kind === 'human') {
                         <hidden>
                             type List&lt;DATA extends any[]> = (...tail: DATA) => void;
                             type Push&lt;El, list extends List&lt;any>> = list extends List&lt;infer Data> ? (head: El, ...tail: Data) => void : never;
-                            type Pop&lt;Head, Tail extends any[]> = (h: Head, ...tail: Tail) => void;
                         </hidden>
+                        type Pop&lt;Head, Tail extends any[]> = (h: Head, ...tail: Tail) => void;
+
                         type Flatten&lt;T extends List&ltany>> = T extends Pop&lt;infer Head, infer Tail>
                                 ? Head | Flatten&lt;List&lt;Tail>>
                                 : never
@@ -739,7 +759,7 @@ type Flatten&lt;T extends List&lt;any>> = {
     tail: T extends Pop&lt;infer Head, infer Tail> ? Head | Flatten&lt;List&lt;Tail>> : never;
     end: never;
 } [
-    T extends Pop&lt;unknown, infer Tail> ? 'end' : 'tail'
+    T extends Pop&lt;unknown, any> ? 'end' : 'tail'
 ];
 </pre>
                         The conditional type confuses the cycle detection algorithm!
@@ -779,7 +799,7 @@ type Flatten&lt;T extends List&lt;any>> = {
                                 params: T['params'];
                             }
                             type HttpServer&lt;T extends Api> = {
-                                [k in keyof T]: (req: HttpRequest&lt;T[k]>) => void;
+                                [k in keyof T]?: (req: HttpRequest&lt;T[k]>) => void;
                             }
                             declare function createClient&lt;T extends Api>(def: T): HttpClient&lt;T>;
                             declare function createServer&lt;T extends Api>(def: T, serv: HttpServer&lt;T>): void;
@@ -800,7 +820,7 @@ type Flatten&lt;T extends List&lt;any>> = {
 
                         const client = createClient(api);
                         
-                        const server = createServer(api);
+                        const server = createServer(api, {});
                     </editor>
                 </section>
 
@@ -1038,12 +1058,12 @@ Left extends Abstraction&lt;infer Varname, infer Expr> ?
     Application&lt;Left, Right> :
 T;</pre>
                         <pre>type Replace&lt;Expr, Varname, Replacement> =
-Expr extends Variable&lt;infer VarVarname> ?
-    VarVarname extends Varname ? Replacement : Expr :
+Expr extends Variable&lt;Varname> ? Replacement :
+Expr extends Variable&lt;string> ? Expr :
 Expr extends Abstraction&lt;infer AbstrVarname, infer AbstrExpr> ?
     Abstraction&lt;AbstrVarname, Replace&lt;AbstrExpr, Varname, Replacement>> :
 Expr extends Application&lt;infer Left, infer Right> ? 
-    Application&lt;ReplaceRec&lt;Left, Varname, Replacement>, ReplaceRec&lt;Right, Varname, Replacement>> :
+    Application&lt;Replace&lt;Left, Varname, Replacement>, Replace&lt;Right, Varname, Replacement>> :
 Expr</pre>
                         We need to make this expression recursive. But this time I don't want to re-write the end condition
                         like we did before, because this expression is complex.<br>
@@ -1092,6 +1112,7 @@ type SUCC_0 = Reduce&lt;[SUCC, _0]></pre>
                         </div>
                         <editor data-trim>
                             <hidden>
+                                // Note: This version is slightly optimized in order to hit the recursion limit a bit later
                                 type Variable&lt;T extends string> = T;
                                 type Application&lt;M, N> = [M, N];
                                 type Abstraction&lt;Var extends string, Expr> = (l: Var) => Expr;
@@ -1178,11 +1199,12 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                 </section>
                 <section>
                     <p>or is it?</p>
-                    <div style="position: absolute; margin-left: 150px">
-                        <img class="fragment" src="./imgs/ahejlsberg.png" alt="" style="display: block; margin: auto; border: none; width: 900px; margin-top: 40px">
+                    <div class="fragment" style="position: absolute; margin-left: 150px">
+                        <img src="./imgs/ahejlsberg.png" alt="" style="display: block; margin: auto; border: none; width: 900px; margin-top: 40px">
                     </div>
                     <editor data-trim>
                         <hidden>
+                            // Note: This version is slightly optimized in order to hit the recursion limit a bit later
                             type Variable&lt;T extends string> = T;
                             type Application&lt;M, N> = [M, N];
                             type Abstraction&lt;Var extends string, Expr> = (l: Var) => Expr;
@@ -1224,7 +1246,6 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                             interface ReduceAllRec&lt;T, k extends 't'> {
                                 t: true extends CanReduce&lt;T> ? ReduceAllRec&lt;Reduce&lt;T>, k>[k] : T;
                             }
-
                         </hidden>
                         type _4 = (l: 'f') => (l: 'x') => ['f', ['f', ['f', ['f', 'x']]]];
                         type Mult = (l: 'm') => (l: 'n') => (l: 'f') => ['m', ['n', 'f']];
@@ -1278,32 +1299,6 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                 <section>
                     <h2>B-roll</h2>
                     <p class="fragment">Raw clips that didn't make it to the presentation.</p>
-                </section>
-
-                <section>
-                    <p>Trick #1&half;</p>
-                    <editor data-trim style="height: 300px;">
-                        <hidden>
-                            declare function escapeHtmlString(s: string): string;
-                            declare function getUserInput(): string;
-                            type SafeString = string & { __isEscaped: true };
-                            function sanitize(raw: string): SafeString {
-                                return escapeHtmlString(raw) as SafeString;
-                            }
-                        </hidden>
-                        function html<T extends string[]>(body: TemplateStringsArray, ...args: string[]): string {
-                            let builder = '';
-                            // ...
-                            return builder;
-                        }
-                        const userName = getUserInput();
-
-                        html`Hello ${userName}!`; // "Hello John!"
-                    </editor>
-                    <aside class="notes"><pre>
-                        This is a JS tagged template. In TS they are type-checked! <br>
-                        Replace argument string[] with SafeString[] .
-                    </pre></aside>
                 </section>
 
                 <section>

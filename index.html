@@ -101,6 +101,8 @@
                         Today we'll talk about TypeScript.
 
                         According to a popular developer survey, TS is the 3rd most loved language and 4th most wanted.
+
+                        (StackOverflow 2019 developer survey)
                     </aside>
                 </section>
 
@@ -153,7 +155,7 @@
                     <aside class="notes">
                         Once in a while I'll see a piece of code which, although it works, could be improved.<br>
                         <br>
-                        [4 slides]
+                        [3 slides]
                         <br>
                         So I set out to the task of improving it. I come up with a simple plan.<br>
                         <br>
@@ -178,7 +180,7 @@
                     <h2>Focus of this talk</h2>
                     <img src="./imgs/purpose.png" alt="" style="display: block; width: 60%; margin: auto;">
                     <aside class="notes">
-                        And so this is what this meetup is about.<br>
+                        And so this is what this presentation is about.<br>
                         To give this werid code an afterlife so you too can be transported to the edge of TypeScript, and in this process, learn more about this popular language.<br>
                         <br>
                         Obviously you will not become experts just watching this presentation, but you'll walk out with a better understanding of it.
@@ -197,13 +199,7 @@
                         <br>
                         [Poll the room]<br>
                         <br>
-                        Let's quickly review the basics.<br>
-                        <br>
-                        ---<br>
-                        <br>
-                        Mais avant de plonger dans les choses extrèmes, assurons nous que tout le monde soit au clair avec les principes de bases.<br>
-                        <br>
-                        [Sondage]<br>
+                        Let's quickly review the basics.
                     </aside>
                 </section>
                 <section>
@@ -260,11 +256,6 @@
                     <aside class="notes">
                         With what we've seen so far, you already know 60% of what you'll ever need in TS.<br><br>
                         But you are going to need operators to combine types and start doing interesting stuff.<br>
-                        <br>
-                        ---
-                        <br>
-                        Ce qu'on a vu jusqu'à maintenant c'est 60% de ce dont vous aurez jamais besoin en TypeScript.<br><br>
-                        Mais il vous manque encore qulques concepts pour pouvoir vous lancer des des cas extrèmes.<br>
                     </aside>
                 </section>
                 <section>
@@ -307,18 +298,8 @@
                         <pre>
 const userName = sanitize(getUserInput());
 render("Hello %name%", userName);
-                    </pre>
-                    <br>
-                    ---<br>
-                    Ceci nous amène à la première astuce.<br>
-                    Comme vous le savez il est dificile de se protéger des XSS.<br>
-                    On peut facilement oublier une variable.<br>
-                    Mais un seul oubli est suffisant pour compromettre votre app!<br>
-                    <br>
-                    On peut utiliser TS pour se prémunir contre les XSS!<br>
-                    <br>
-                    sanitize passe la string dans une fonction d'échappement.<br>
-                </aside>
+                        </pre>
+                    </aside>
                 </section>
 
                 <section>
@@ -396,13 +377,71 @@ render("Hello %name%", userName);
                         <br>
                         In the function, the only accessible member is "kind".<br>
                         <br>
-                        If I discriminate based on its value, I gain access to the other members!<br>
+                        If I discriminate based on this value, I gain access to the other members!<br>
                         <pre>
 if (user.kind === 'human') {
     return `Hello ${user.firstname} ${user.lastname}!`;
 } else {
     return `0101000110 ${user.handle}`;
 }</pre>
+                    </aside>
+                </section>
+
+                <section>
+                    <div class="h-layout">
+                        <div style="min-width: 500px;">
+                            <p style="margin-top: 50%">Trick #2&half;<br>Exhaustive matching (without return type)</p>
+                            <p class="fragment">Bonus trick<br>Type-level error messages</p>
+                        </div>
+                        <editor data-trim>
+                            <hidden>
+                                interface HumanUser {
+                                    type: 'human';
+                                    firstname: string;
+                                    lastname: string;
+                                }
+                                interface BotUser {
+                                    type: 'bot';
+                                    handle: string;
+                                }
+                                interface AlienUser {
+                                    type: 'alien',
+                                    codename: string
+                                }
+                                type AnyUser = HumanUser | BotUser | AlienUser;
+
+                                declare function postMessage(s: string): void;
+                            </hidden>
+
+                            function greet(user: AnyUser): void {
+                                switch (user.type) {
+                                    case 'human':
+                                        postMessage(`Hello ${user.firstname} ${user.lastname}!`);
+                                        break;
+                                    case 'bot':
+                                        postMessage(`0101000110 ${user.handle}`);
+                                        break;
+                                    // Am I missing something?
+                                }
+                            }
+                        </editor>
+                    </div>
+                    <aside class="notes">
+                        TypeScript has a type which means "should never happen". It is called <pre>never</pre>.<br>
+                        <br>
+                        Declare this function and use it in the <pre>default</pre> block.
+                        <pre>
+function isSwitchExhaustive(a: never) {
+    throw new Error('Unexpected case');
+}
+                        </pre>
+                        <br>
+                        For type-level error messages, change function parameter to:
+                        <pre>a: "ERROR: You are missing a case in this switch"</pre>
+                        <br>
+                        Why does this work?<br>
+                        Because unions can always be written as <pre>A | B | ... | never</pre>.<br>
+                        Never is what is left when you've removed everything from a union.
                     </aside>
                 </section>
                 <section>
@@ -673,7 +712,7 @@ if (user.kind === 'human') {
                     </div>
                     <aside class="notes">
                         Naively, one would start with a conditional like this:
-                        <pre>type Flatten&lt;T extends any[]> = T extends [infer Frist, ...any[]] ? First | Flatten&lt;T[Rest]> : T;</pre>
+                        <pre>type Flatten&lt;T extends any[]> = T extends [infer Frist, ...infer Rest] ? First | Flatten&lt;T[Rest]> : T;</pre>
                         <br>
                         How do I get the rest of a tuple?<br>
                         How do I make a recursive type?
@@ -762,7 +801,9 @@ type Flatten&lt;T extends List&lt;any>> = {
     T extends Pop&lt;unknown, any> ? 'end' : 'tail'
 ];
 </pre>
-                        The conditional type confuses the cycle detection algorithm!
+                        The conditional type confuses the cycle detection algorithm!<br>
+                        <br>
+                        As seen here: https://github.com/Microsoft/TypeScript/issues/14833
                     </aside>
                 </section>
                 <section>
@@ -1302,64 +1343,6 @@ type Is1Zero = ReduceAll&lt;[[[IsZero, _1], 'is zero'], 'not zero']>;</pre>
                 </section>
 
                 <section>
-                    <div class="h-layout">
-                        <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching (without return type)</p>
-                            <p class="fragment">Bonus trick<br>Type-level error messages</p>
-                        </div>
-                        <editor data-trim>
-                            <hidden>
-                                interface HumanUser {
-                                    type: 'human';
-                                    firstname: string;
-                                    lastname: string;
-                                }
-                                interface BotUser {
-                                    type: 'bot';
-                                    handle: string;
-                                }
-                                interface AlienUser {
-                                    type: 'alien',
-                                    codename: string
-                                }
-                                type AnyUser = HumanUser | BotUser | AlienUser;
-
-                                declare function postMessage(s: string): void;
-                            </hidden>
-
-                            function greet(user: AnyUser): void {
-                                switch (user.type) {
-                                    case 'human':
-                                        postMessage(`Hello ${user.firstname} ${user.lastname}!`);
-                                        break;
-                                    case 'bot':
-                                        postMessage(`0101000110 ${user.handle}`);
-                                        break;
-                                    // Am I missing something?
-                                }
-                            }
-                        </editor>
-                    </div>
-                    <aside class="notes">
-                        TypeScript has a type which means "should never happen". It is called <pre>never</pre>.<br>
-                        <br>
-                        Declare this function and use it in the <pre>default</pre> block.
-                        <pre>
-function isSwitchExhaustive(a: never) {
-    throw new Error('Unexpected case');
-}
-                        </pre>
-                        <br>
-                        For type-level error messages, change function parameter to:
-                        <pre>a: "ERROR: You are missing a case in this switch"</pre>
-                        <br>
-                        Why does this work?<br>
-                        Because unions can always be written as <pre>A | B | ... | never</pre>.<br>
-                        Never is what is left when you've removed everything from a union.
-                    </aside>
-                </section>
-
-                <section>
                     <p>Conditional type inference distributivity</p>
                     <editor data-trim>
                         type Strings = 'a' | 'b' | 'c';
@@ -1433,15 +1416,23 @@ function isSwitchExhaustive(a: never) {
 
                         }
                     </editor>
+                    <aside class="notes">
+                        The decorator @Model can only be applied to subclasses of AModel.
+                    </aside>
                 </section>
                 <section>
                     <p>Member decorator</p>
                     <editor data-trim data-tsconfig="strictPropertyInitialization=false">
+                        <hidden>
+                            abstract class AModel {
+                                id: string;
+                            }
+                        </hidden>
                         function MyDecorator(t: unknown, p: PropertyKey) {
                             
                         }
 
-                        class MyClass {
+                        class MyClass extends AModel {
                             @MyDecorator
                             id: string;
                         }
@@ -1449,10 +1440,11 @@ function isSwitchExhaustive(a: never) {
                     <aside class="notes">
                         Better yet:
 <pre>
-function MyDecorator&lt;T>(model: T, key: keyof T) {
+function MyDecorator&lt;T extends AModel>(model: T, key: keyof T) {
 
 }
 </pre>
+                        Now, the decorator can only be applied to members of a class extending AModel.
                     </aside>
                 </section>
                 <section>
@@ -1480,7 +1472,8 @@ function MyDecorator&lt;T>(model: T, key: keyof T) {
                         What if we want all members to be declared optional?
                         <pre>ModelProperty&lt;T, K extends keyof T>(model: VerifyModel&lt;T, K>, key: K
 type VerifyModel&lt;T, K extends keyof T> = undefined extends T[K] ? T : never;</pre>
-                        Can we make the error message more friendly?
+                        Can we make the error message more friendly?<br>
+                        Replace never with this type:
                         <pre>type ERR_NOT_OPTIONAL = "Error: Model properties must be optional</pre>
                         What if we want to add a default?
                         <pre>type DefaultProvider&lt;T> = {

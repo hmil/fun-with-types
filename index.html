@@ -390,7 +390,47 @@ if (user.kind === 'human') {
                 <section>
                     <div class="h-layout">
                         <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #2&half;<br>Exhaustive matching (without return type)</p>
+                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching</p>
+                        </div>
+                        <editor data-trim>
+                            <hidden>
+                                interface HumanUser {
+                                    type: 'human';
+                                    firstname: string;
+                                    lastname: string;
+                                }
+                                interface BotUser {
+                                    type: 'bot';
+                                    handle: string;
+                                }
+                            </hidden>
+                            interface AlienUser {
+                                type: 'alien',
+                                codename: string
+                            }
+                            
+                            type AnyUser = HumanUser | BotUser | AlienUser;
+    
+                            function greet(user: AnyUser): string {
+                                switch (user.type) {
+                                    case 'human':
+                                        return `Hello ${user.firstname} ${user.lastname}!`;
+                                    case 'bot':
+                                        return `0101000110 ${user.handle}`;
+                                }
+                            }
+                        </editor>
+                    </div>
+                    <aside class="notes">
+                        Can you spot the mistake in this code snippet?
+
+                        ...missing a case for 'alien' type.
+                    </aside>
+                </section>
+                <section>
+                    <div class="h-layout">
+                        <div style="min-width: 500px;">
+                            <p style="margin-top: 50%">Trick #3&half;<br>Exhaustive matching (without return type)</p>
                             <p class="fragment">Bonus trick<br>Type-level error messages</p>
                         </div>
                         <editor data-trim>
@@ -442,46 +482,6 @@ function isSwitchExhaustive(a: never) {
                         Why does this work?<br>
                         Because unions can always be written as <pre>A | B | ... | never</pre>.<br>
                         Never is what is left when you've removed everything from a union.
-                    </aside>
-                </section>
-                <section>
-                    <div class="h-layout">
-                        <div style="min-width: 500px;">
-                            <p style="margin-top: 50%">Trick #3<br>Exhaustive matching</p>
-                        </div>
-                        <editor data-trim>
-                            <hidden>
-                                interface HumanUser {
-                                    type: 'human';
-                                    firstname: string;
-                                    lastname: string;
-                                }
-                                interface BotUser {
-                                    type: 'bot';
-                                    handle: string;
-                                }
-                            </hidden>
-                            interface AlienUser {
-                                type: 'alien',
-                                codename: string
-                            }
-                            
-                            type AnyUser = HumanUser | BotUser | AlienUser;
-    
-                            function greet(user: AnyUser): string {
-                                switch (user.type) {
-                                    case 'human':
-                                        return `Hello ${user.firstname} ${user.lastname}!`;
-                                    case 'bot':
-                                        return `0101000110 ${user.handle}`;
-                                }
-                            }
-                        </editor>
-                    </div>
-                    <aside class="notes">
-                        Can you spot the mistake in this code snippet?
-
-                        ...missing a case for 'alien' type.
                     </aside>
                 </section>
                 <!-- <section>
